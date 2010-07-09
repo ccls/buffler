@@ -14,11 +14,9 @@
 == Required Gems
 
 * {RedCloth}[http://redcloth.org] - textile parser.
-* {active_shipping}[http://github.com/Shopify/active_shipping] - package tracking
 * {chronic}[http://chronic.rubyforge.org] - natural language Date/Time parser. (also required for BackgrounDRb)
 * {packet}[http://packet.rubyforge.org] - requirement for BackgrounDRb
 * {acts_as_list}[http://github.com/ryanb/acts-as-list] - for maintaining order in all things listable
-* {validatious-on-rails}[http://github.com/grimen/validatious-on-rails] - CONSIDERING the use of this javascript form validator
 * {rcov}[http://github.com/relevance/rcov] - testing
 * {mocha}[http://github.com/floehopper/mocha] - testing
 * {autotest-rails}[http://rubyforge.org/projects/zentest] - testing
@@ -36,9 +34,7 @@
 * {html_test}[http://github.com/peter/html_test] - html testing and validation
 * {html_test_extension}[http://github.com/jakewendt/html_test_extension] - html testing and validation
 * {backgroundrb}[http://github.com/gnufied/backgroundrb] - background job server and scheduler
-* {acts_as_trackable}[http://github.com/jakewendt/acts_as_trackable] - simple plugin to track the steps in shipping, but could be used for other things
 * {rdoc_rails}[http://github.com/jakewendt/rdoc_rails] - simple plugin to add ActiveRecord associations to rdoc
-* {Surveyor}[http://github.com/jakewendt/surveyor] - for the taking of surveys (using plugin instead of gem)
 * {Paperclip}[http://github.com/thoughtbot/paperclip] - for managing attachments and images
 * {ruby_extension}[http://github.com/jakewendt/ruby_extension] - modifications, updates and patches for ruby.
 * {ssl_requirement}[http://github.com/rails/ssl_requirement] - for managing https pages
@@ -154,21 +150,6 @@ then we continue ...
  rake app:deputize uid=<Your CalNet UID>
 
 
- #	Install your survey(s)
- rake surveyor FILE=surveys/he_survey.rb APPEND=true
- #	Running 'rake surveyor ...' will parse your survey file
- #	and generate several yml files in the fixtures dir.
- #	Without the APPEND=true, it will DESTROY the contents
- #	of the survey related tables (surveys, questions, answers,
- #	and a couple others.)  It will not touch responses and 
- #	response_sets.  However, without the questions and 
- #	answers, the responses are pretty useless.  By using
- #	APPEND=true, new surveys, questions, answers, etc.
- #	are APPENDED to the database.  Always APPEND=true.
- #	Unfortunately, the contents of the DB are in the DB.
- #	Duh.  So when we move from dev to prod, we will need
- #	to ensure that we do it correctly!
-
 
 == Production Installation
 
@@ -178,17 +159,17 @@ Tomcat will unarchive the war file and DESTROY the existing unarchived version! 
 
  ( warble from a jruby environment to get the jruby specific gems )
 
- [jakewendt@dev : ucb_sph_ccls_homex ]>
+ [jakewendt@dev : ucb_sph_ccls_buffler ]>
  bash
  rvm use jruby
  warble
- scp homex.war ccls.berkeley.edu:
+ scp buffler.war ccls.berkeley.edu:
 
  [jakewendt@ccls-01]>
  sudo /sbin/service tomcat5 stop
  sudo su -l tomcat
- /bin/rm -rf /var/lib/tomcat5/webapps/homex
- cp ~jakewendt/homex.war /var/lib/tomcat5/webapps/
+ /bin/rm -rf /var/lib/tomcat5/webapps/buffler
+ cp ~jakewendt/buffler.war /var/lib/tomcat5/webapps/
  exit
 
  sudo /sbin/service tomcat5 start
@@ -235,8 +216,6 @@ I've made some mods in {html_test_extension}[http://github.com/jakewendt/html_te
 
 {Ruby Best Practices}[http://github.com/sandal/rbp-book/tree/gh-pages/pdfs/]
 
-{FedEx credentials}[http://www.fedex.com/us/developer/index.html]
-
 {RVM on GitHub}[http://github.com/wayneeseguin/rvm]
 
 
@@ -260,23 +239,6 @@ I've made some mods in {html_test_extension}[http://github.com/jakewendt/html_te
 * rdoc the rake tasks??
 * thickbox-compressed.js has relative location for image which isn't always correct.
 
-
-
-== Surveyor Notes / To Do's
-
-* There is no functioning "show" action for surveyor.  There is a route.  There is an action.  There is a view.  It just isn't setup.  Some vars aren't set.  I don't think that they use it.
-* There is no "#response.value".  It can be obtained, it just isn't straight forward as there are 8 possible places for it. (answer,string,integer,float,text,datetime,time,date) {They discuss this.}[http://wiki.github.com/breakpointer/surveyor/survey-theory] .  There is a #response.to_s which may actually be what I want. Not quite.  Returns the strings and not my codes as is implied by to_s.
-* What is a "#response.unit" ?
-* Despite saying "Surveyor will support 4 export formats out of the box", I have seen no mention as to how or where.
-* As there isn't a lot of documentation, it raises questions about how I implemented it.  I used "data_export_identifier" to store internal codes for answers and column names for the questions.  I just hope the that field isn't used for something else.
-* Response has a "response_other:string" which may be useful, but won't adhere to the number coding presented to me.
-* {Surveyor Issue 45}[http://github.com/breakpointer/surveyor/issues/issue/45]
-* {Surveyor Issue 46}[http://github.com/breakpointer/surveyor/issues/issue/46]
-* {Surveyor Issue 47}[http://github.com/breakpointer/surveyor/issues/issue/47]
-* {Surveyor Issue 48}[http://github.com/breakpointer/surveyor/issues/issue/48]
-* {Surveyor Issue 49}[http://github.com/breakpointer/surveyor/issues/issue/49]
-* {Surveyor Issue 50}[http://github.com/breakpointer/surveyor/issues/issue/50]
-* {Surveyor Issue 51}[http://github.com/breakpointer/surveyor/issues/issue/51]
 
 
 == Credit / Special Thanks
