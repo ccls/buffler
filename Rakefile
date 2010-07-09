@@ -34,8 +34,6 @@ class Rake::RDocTask
 				rdoc.main = 'README.rdoc'
 				%w(	
 					README.rdoc
-					/usr/lib/ruby/user-gems/1.8/gems/surveyor-0.9.10/app/models/**
-					vendor/plugins/acts_as_trackable/lib/track.rb
 				).each{|f| rdoc.rdoc_files.include( f ) }
 #				rdoc.rdoc_files.include('README.rdoc')
 #				rdoc.rdoc_files.include(
@@ -48,15 +46,3 @@ class Rake::RDocTask
 end
 
 require 'tasks/rails'
-
-#	why?  Included by default
-#	As a plugin, this line will cause all tasks to be duplicated
-#	so DEFINITELY remove this line
-#require 'tasks/surveyor'
-#	It still tries to run it twice!!!! WTF
-#
-#	There were some lines in one of my rake files for getting 
-#	the tasks from the gem
-#
-
-require 'lib/surveyor/survey_extensions'
