@@ -48,9 +48,6 @@
  #	Copy and setup database file.
  cp config/database.yml.example config/database.yml
 
- #	Copy and add your own FedEx credentials.
- cp config/fed_ex.yml.example config/fed_ex.yml
-
  #	Copy and add your own gmail credentials.
  cp config/initializers/mail.rb.example config/initializers/mail.rb
 
