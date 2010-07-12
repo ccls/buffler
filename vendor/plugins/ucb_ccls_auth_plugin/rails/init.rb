@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__),'../config')
 require 'environment'
 require 'ucb_ccls_auth_plugin'
+#require 'auth_by_authlogic'
 require 'auth_by_ucb_cas'
 
 if !defined?(RAILS_ENV) || RAILS_ENV == 'test'
