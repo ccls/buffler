@@ -51,7 +51,6 @@ Rails::Initializer.run do |config|
 		config.gem 'mysql'
 	end
 
-#	config.gem "RedCloth"
 	config.gem "chronic"   #		http://chronic.rubyforge.org/
 	config.gem "packet"    #		http://packet.rubyforge.org/
 
