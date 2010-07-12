@@ -49,15 +49,15 @@ ActionController::Routing::Routes.draw do |map|
 #	#	keep user_sessions route plural or form on 'new' will fail.
 #	map.resources :user_sessions, :only => [ :new, :create, :destroy ]
 
-	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
-	map.resources :sessions, :only => [ :destroy ]
+#	map.logout 'logout', :controller => 'sessions', :action => 'destroy'
+#	map.resources :sessions, :only => [ :destroy ]
 
 
 	map.resource  :calendar,   :only => [ :show ]
 
-	map.resources :users, :only => [:show, :index] do |user|
-		user.resources :roles, :only => [:update,:destroy]
-	end
+#	map.resources :users, :only => [:show, :index] do |user|
+#		user.resources :roles, :only => [:update,:destroy]
+#	end
 
 	map.resources :pages, :collection => { :order => :post }
 	map.resources :home_page_pics, :collection => { :activate => :post }
