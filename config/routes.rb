@@ -45,12 +45,6 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resources :home_page_pics, :collection => { :activate => :post }
 
-	map.connect 'stylesheets/:action.:format', :controller => 'stylesheets'
-	map.connect 'javascripts/:action.:format', :controller => 'javascripts'
-
-	map.resources :locales, :only => :show
-
-
 	#	MUST BE LAST OR WILL BLOCK ALL OTHER ROUTES!
 	#	catch all route to manage admin created pages.
 	map.connect   '*path', :controller => 'pages', :action => 'show'
