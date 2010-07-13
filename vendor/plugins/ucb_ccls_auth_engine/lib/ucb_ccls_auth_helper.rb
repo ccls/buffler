@@ -1,4 +1,4 @@
-module UserHelper
+module UcbCclsAuthHelper
 
 	def user_roles
 		s = ''
