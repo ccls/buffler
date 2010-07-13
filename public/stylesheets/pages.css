@@ -1,6 +1,5 @@
 .page .position {
 	font-weight:bold;
-	border: 1px solid black;
 }
 .page.row.ui-sortable-helper {
 	border: 1px dashed #E7C254;

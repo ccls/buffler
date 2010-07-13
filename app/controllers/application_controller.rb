@@ -10,13 +10,6 @@ class ApplicationController < ActionController::Base
 
 protected	#	private #	(does it matter which or if neither?)
 
-#	def no_current_user_required
-#		logged_in? &&
-#			access_denied("You must be logged out to do that",root_path)
-#	end
-
-	#	Does nothing in testing as https just causes errors.
-	#	Gotta figure this thing out.
 	def ssl_required?
 		#	Force https everywhere (that doesn't have ssl_allowed set)
 		true
