@@ -45,8 +45,10 @@ protected	#	private #	(does it matter which or if neither?)
 		})
 	end
 
-	def block_all_access
-		access_denied("That route is no longer available")
-	end
+#	Unused
+#
+#	def block_all_access
+#		access_denied("That route is no longer available")
+#	end
 
 end
