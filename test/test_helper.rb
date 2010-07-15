@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
 $LOAD_PATH.unshift File.dirname(__FILE__) # NEEDED for rake test:coverage
-require 'factory_test_helper'
+#require 'factory_test_helper'
 
 require 'pending'
 require 'declarative'
@@ -31,7 +31,7 @@ class ActiveSupport::TestCase
 	self.use_instantiated_fixtures  = false
 	fixtures :all
 
-	include FactoryTestHelper
+#	include FactoryTestHelper
 
 end
 
