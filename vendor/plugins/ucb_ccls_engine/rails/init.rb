@@ -62,6 +62,7 @@ if !defined?(RAILS_ENV) || RAILS_ENV == 'test'
 #	require 'authlogic_test_helper'
 	require 'ucb_cas_test_helper'
 #	require 'factories'
+	require 'factory_test_helper'
 end
 
 
