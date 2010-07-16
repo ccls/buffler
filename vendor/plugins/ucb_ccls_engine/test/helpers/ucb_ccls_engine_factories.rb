@@ -1,8 +1,9 @@
 Factory.define :document do |f|
 	f.sequence(:title) { |n| "Title#{n}" }
+	f.sequence(:document_file_name) { |n| "document_file_name#{n}" }
 end
 
-Factory.define :image do |f|
+Factory.define :photo do |f|
 	f.sequence(:title) { |n| "Title#{n}" }
 end
 
