@@ -1,5 +1,7 @@
 class Document < ActiveRecord::Base
 	belongs_to :owner, :class_name => 'User'
+#	has_and_belongs_to_many :users
+#	has_and_belongs_to_many :groups
 
 	validates_presence_of :title
 	validates_length_of :title, :minimum => 4
@@ -22,7 +24,11 @@ class Document < ActiveRecord::Base
 #	end
 
 	#	documents/2/list_wireframe.pdf 
-	path = ':rails_root/:attachment/:id/:filename'
+	path = if Rails.env == 'test'
+		':rails_root/test/:attachment/:id/:filename'
+	else
+		':rails_root/:attachment/:id/:filename'
+	end
 #	url  = ':rails_root/:attachment/:id/:filename'
 
 	has_attached_file :document, :path => path
