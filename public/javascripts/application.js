@@ -7,5 +7,6 @@ jQuery(function(){
 	jQuery('p.flash').click(function(){$(this).remove();});
 
 	jQuery.getScript('/javascripts/cache_helper.js');
+	jQuery.getScript('/buffler/javascripts/cache_helper.js');
 
 });
