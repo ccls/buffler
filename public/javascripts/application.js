@@ -6,7 +6,9 @@ jQuery(function(){
 
 	jQuery('p.flash').click(function(){$(this).remove();});
 
-	jQuery.getScript('/javascripts/cache_helper.js');
-	jQuery.getScript('/buffler/javascripts/cache_helper.js');
+	var root = (location.host == 'ccls.berkeley.edu')?'/buffler':''
+	jQuery.getScript(root + 
+		'/javascripts/cache_helper.js?caller=' +
+		location.pathname.replace(new RegExp('^' + root),'') );
 
 });
