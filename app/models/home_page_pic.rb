@@ -20,7 +20,24 @@ class HomePagePic < ActiveRecord::Base
 		:large  => "800",
 		:medium => "600",
 		:small  => "150x50>"
-	}, :url => url, :path => path
+	},
+		:storage => :s3,
+		:s3_protocol => 'https',
+		:s3_credentials => "#{Rails.root}/config/s3.yml",
+		:bucket => 'ucb_ccls_buffler',
+		:path => 'home_page_pics/:attachment/:id/:style/:filename'
+#	}, :url => url, 
+
+#	S3 must have a defined path or will generate
+#	"Stack level too deep" errors
+
+
+#	has_attached_file :image, :styles => {
+#		:full   => "900",
+#		:large  => "800",
+#		:medium => "600",
+#		:small  => "150x50>"
+#	}, :url => url, :path => path
 
 #	class MissingAdapter < StandardError; end
 
