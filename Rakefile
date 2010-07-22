@@ -45,4 +45,7 @@ class Rake::RDocTask
 	end
 end
 
-require 'tasks/rails'
+require 'tasks/rails'	#	self loading
+
+require 'paperclip'
+load "tasks/paperclip.rake"
