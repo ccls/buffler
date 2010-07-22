@@ -21,6 +21,12 @@ Rails::Initializer.run do |config|
 	# config.gem "sqlite3-ruby", :lib => "sqlite3"
 	# config.gem "aws-s3", :lib => "aws/s3"
 
+	config.gem "aws-s3", :lib => "aws/s3"
+#	may need to add these to warbler
+#Successfully installed xml-simple-1.0.12
+#Successfully installed builder-2.1.2
+#Successfully installed mime-types-1.16
+#Successfully installed aws-s3-0.6.2
 
 
 	# This is set to /buffler in environments/production.rb
