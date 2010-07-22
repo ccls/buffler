@@ -2,42 +2,36 @@ class HomePagePic < ActiveRecord::Base
 	validates_presence_of :title
 	validates_length_of :title, :minimum => 4
 
-	path = if Rails.env == 'production'
-		':rails_root.uploads/system/:attachment/:id/:style/:filename'
-	else
-		':rails_root/public/system/:attachment/:id/:style/:filename'
-	end
-
-	url = if Rails.env == 'production'
-#		'http://ccls.berkeley.edu/ucb_sph_ccls.uploads/:attachment/:id/:style/:filename'
-		'/../ucb_sph_ccls.uploads/system/:attachment/:id/:style/:filename'
-	else
-		'/system/:attachment/:id/:style/:filename'
-	end
-
-	has_attached_file :image, :styles => {
+	has_attached_file_options = { :styles => {
 		:full   => "900",
 		:large  => "800",
 		:medium => "600",
 		:small  => "150x50>"
-	},
+	} }
+
+	s3_options = {
+		:s3_permissions => :public_read,	#	:private
 		:storage => :s3,
 		:s3_protocol => 'https',
 		:s3_credentials => "#{Rails.root}/config/s3.yml",
 		:bucket => 'ucb_ccls_buffler',
 		:path => 'home_page_pics/:attachment/:id/:style/:filename'
-#	}, :url => url, 
+		#	S3 must have a defined path or will generate
+		#	"Stack level too deep" errors
+	}
 
-#	S3 must have a defined path or will generate
-#	"Stack level too deep" errors
+	if Rails.env == 'production'
+		has_attached_file_options.merge!(s3_options)
+	else
+		url = "/#{Rails.env}/system/:attachment/:id/:style/:filename"
+		has_attached_file_options.merge!({
+			:path => ":rails_root/public/#{url}",
+			:url  => url
+		})
+	end
 
+	has_attached_file :image, has_attached_file_options
 
-#	has_attached_file :image, :styles => {
-#		:full   => "900",
-#		:large  => "800",
-#		:medium => "600",
-#		:small  => "150x50>"
-#	}, :url => url, :path => path
 
 #	class MissingAdapter < StandardError; end
 

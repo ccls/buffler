@@ -20,6 +20,13 @@ namespace :app do
 		ENV['uid'] = '228181'
 		Rake::Task["app:deputize"].reenable	#	<- this is stupid!
 		Rake::Task["app:deputize"].invoke
+
+#mountain_stream.jpg
+
+		%w( mountain_stream.jpg ).each do |hpp|
+			HomePagePic.create(:title => hpp,
+				:image => File.open(File.join(RAILS_ROOT,'to_upload',hpp)))
+		end
 	end
 
 	desc "Add some expected users."

@@ -39,7 +39,7 @@ module ApplicationHelper
 
 	def application_home_page_pic
 		if @page && @page.is_home? && !@hpp.nil?
-			s = "<div id='home_page_pic' class='main_width'>\n"
+			s =  "<div id='home_page_pic' class='main_width'>\n"
 			s << image_tag( @hpp.image.url(:full) )
 			s << "\n</div><!-- id='home_page_pic'  -->\n"
 		end

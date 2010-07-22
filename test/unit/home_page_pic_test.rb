@@ -6,10 +6,11 @@ class HomePagePicTest < ActiveSupport::TestCase
 
 	test "should create home_page_pic" do
 		assert_difference 'HomePagePic.count' do
-			object = create_object
-			assert !object.new_record?, 
-				"#{object.errors.full_messages.to_sentence}"
+			@object = create_object
+			assert !@object.new_record?, 
+				"#{@object.errors.full_messages.to_sentence}"
 		end
+		@object.destroy
 	end
 
 	test "should require 4 char title" do
@@ -25,6 +26,8 @@ class HomePagePicTest < ActiveSupport::TestCase
 		inactive = Factory(:home_page_pic, :active => false, 
 			:image_file_name => 'some_fake_file_name')
 		assert_equal active, HomePagePic.random_active()
+		active.destroy
+		inactive.destroy
 	end
 
 protected
