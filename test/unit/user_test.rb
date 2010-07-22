@@ -4,6 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
 	assert_should_require(:uid)
 	assert_should_require_unique(:uid)
+	assert_should_habtm(:roles)
 
 	test "should create user" do
 		assert_difference 'User.count' do
@@ -231,11 +232,6 @@ class UserTest < ActiveSupport::TestCase
 	test "should return non-nil gravatar_url" do
 		user = create_user
 		assert_not_nil user.gravatar_url
-	end
-
-	test "should respond to roles" do
-		user = create_user
-		assert user.respond_to?(:roles)
 	end
 
 	test "should have many roles" do
