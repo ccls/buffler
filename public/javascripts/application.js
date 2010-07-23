@@ -12,6 +12,9 @@ jQuery(function(){
 */
 	jQuery.getScript(
 		'/javascripts/cache_helper.js?caller=' +
+		location.pathname );
+/*
 		location.pathname.replace(new RegExp('^' + root),'') );
+*/
 
 });
