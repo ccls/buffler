@@ -32,4 +32,6 @@ config.action_mailer.delivery_method = :smtp
 config.action_mailer.default_url_options = { 
 	:host => "ccls.berkeley.edu" }
 
-config.action_controller.relative_url_root = '/buffler'
+#config.action_controller.relative_url_root = '/buffler'
+#	As the root app, the subdir is no longer needed.
+config.action_controller.relative_url_root = ''
