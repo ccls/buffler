@@ -6,8 +6,12 @@ jQuery(function(){
 
 	jQuery('p.flash').click(function(){$(this).remove();});
 
+/*
+	Being in a separate javascript file, google analytics
+	doesn't 'see' this. Waiting to see if the stats change.
+*/
 	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-17648061-2']);
+	_gaq.push(['_setAccount', 'UA-17648061-6']);
 	_gaq.push(['_trackPageview']);
 
 	var ga = document.createElement('script'); 
