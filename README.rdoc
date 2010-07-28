@@ -34,7 +34,7 @@
 * {jrails}[http://github.com/aaronchi/jrails] (pending) - jquery helper methods (trying to not have any inline javascript so may never really use jrails' methods.)
 * {html_test}[http://github.com/peter/html_test] - html testing and validation
 * {html_test_extension}[http://github.com/jakewendt/html_test_extension] - html testing and validation
-* {backgroundrb}[http://github.com/gnufied/backgroundrb] - background job server and scheduler
+* {backgroundrb}[http://github.com/gnufied/backgroundrb] - background job server and scheduler (includes minor mods to init.rb)
 * {rdoc_rails}[http://github.com/jakewendt/rdoc_rails] - simple plugin to add ActiveRecord associations to rdoc
 * {Paperclip}[http://github.com/thoughtbot/paperclip] - for managing attachments and images
 * {ruby_extension}[http://github.com/jakewendt/ruby_extension] - modifications, updates and patches for ruby.
