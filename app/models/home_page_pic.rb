@@ -14,7 +14,7 @@ class HomePagePic < ActiveRecord::Base
 		:storage => :s3,
 		:s3_protocol => 'https',
 		:s3_credentials => "#{Rails.root}/config/s3.yml",
-		:bucket => 'ucb_ccls_buffler',
+		:bucket => RAILS_APP_NAME,	#'ucb_ccls_buffler',
 		:path => 'home_page_pics/:attachment/:id/:style/:filename'
 		#	S3 must have a defined path or will generate
 		#	"Stack level too deep" errors
