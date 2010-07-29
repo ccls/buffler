@@ -8,4 +8,5 @@
 #	Haml.init_rails(binding)
 #
 #	I don't remember why this is here, so I'm commenting it all out.
+#	I think for Surveyor only.  We shall see.
 #

@@ -27,6 +27,7 @@ Rails::Initializer.run do |config|
 	# config.gem "sqlite3-ruby", :lib => "sqlite3"
 	# config.gem "aws-s3", :lib => "aws/s3"
 
+#	move me into engine
 	config.gem "aws-s3", :lib => "aws/s3"
 #	may need to add these to warbler
 #Successfully installed xml-simple-1.0.12
@@ -47,7 +48,10 @@ Rails::Initializer.run do |config|
 		#	Additional jruby specific jars required in the war
 		config.gem 'jdbc-sqlite3', :lib => 'jdbc/sqlite3'
 		config.gem 'jruby-openssl', :lib => 'openssl'
-		config.gem 'haml'
+#
+#	I think this is only for Surveyor and therefore HomeX
+#
+#		config.gem 'haml'
 	else
 
 		# If using mysql ...
@@ -64,7 +68,7 @@ Rails::Initializer.run do |config|
 	end
 
 	config.gem "chronic"   #		http://chronic.rubyforge.org/
-	config.gem "packet"    #		http://packet.rubyforge.org/
+#	config.gem "packet"    #		http://packet.rubyforge.org/
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
 
