@@ -10,11 +10,16 @@ class HomePagePic < ActiveRecord::Base
 	} }
 
 	s3_options = {
+		:s3_headers => {
+			#	Set the storage class to RRS which is cheaper than 
+			#	the default of STANDARD
+			'x-amz-storage-class' => 'REDUCED_REDUNDANCY'
+		},
 		:s3_permissions => :public_read,	#	:private
 		:storage => :s3,
 		:s3_protocol => 'https',
 		:s3_credentials => "#{Rails.root}/config/s3.yml",
-		:bucket => RAILS_APP_NAME,	#'ucb_ccls_buffler',
+		:bucket => RAILS_APP_NAME,
 		:path => 'home_page_pics/:attachment/:id/:style/:filename'
 		#	S3 must have a defined path or will generate
 		#	"Stack level too deep" errors
@@ -31,7 +36,6 @@ class HomePagePic < ActiveRecord::Base
 	end
 
 	has_attached_file :image, has_attached_file_options
-
 
 #	class MissingAdapter < StandardError; end
 
