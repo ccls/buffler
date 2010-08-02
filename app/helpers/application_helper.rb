@@ -10,8 +10,9 @@ module ApplicationHelper
 		width = ( 900 - count ) / count
 		s = "<div id='rootmenu' class='main_width'>\n"
 		roots.each do |page|
-			s << link_to( page.menu(session[:locale]), 
+			s << link_to( "&nbsp;",	#page.menu(session[:locale]), 
 				ActionController::Base.relative_url_root + page.path,
+				:id => "menu_#{dom_id(page)}",
 				:style => "width: #{width}px",
 				:class => ((page == @page.try(:root))?'current':nil))
 			s << "\n"
@@ -29,7 +30,8 @@ module ApplicationHelper
 			@page.root.children.each do |child|
 				s << "<span class='child#{(@page==child)?" current_child":""}'>"
 				s << link_to( child.menu(session[:locale]), 
-					ActionController::Base.relative_url_root + child.path )
+					ActionController::Base.relative_url_root + child.path,
+					:id => "menu_#{dom_id(child)}" )
 				s << "</span>\n"
 			end
 			s << "</div><!-- id='children'  -->\n"
@@ -44,32 +46,6 @@ module ApplicationHelper
 			s << "\n</div><!-- id='home_page_pic'  -->\n"
 		end
 	end
-
-#	Unused
-#
-#	#	Created this to create form styled buttons to use
-#	#	for the common 'cancel' feature. Unfortunately, it is
-#	#	invalid HTML to have a form inside of a form.  So
-#	#	this isn't as useful as initially hoped.
-#	def form_link_to( title, url, options={} )
-#		s =  "<form class='link_to' action='#{url}' method='get'>"
-#		s << submit_tag(title, :name => nil )
-#		s << "</form>"
-#	end
-#
-#	def se_check_boxes(se,attr)
-#		s = "<li>#{attr.to_s.capitalize}?<ul><li>\n"
-#		s << check_box_tag( "projects[#{se.id}][#{attr}][]", 'true',
-#				params.dig('projects',se.id.to_s,attr.to_s).true?,
-#				:id => "projects_#{se.id}_#{attr}_true" )
-#		s << label_tag( "projects_#{se.id}_#{attr}_true", "True" )
-#		s << "</li><li>\n"
-#		s << check_box_tag( "projects[#{se.id}][#{attr}][]", 'false',
-#				params.dig('projects',se.id.to_s,attr.to_s).false?,
-#				:id => "projects_#{se.id}_#{attr}_false" )
-#		s << label_tag( "projects_#{se.id}_#{attr}_false", "False" )
-#		s << "</li></ul></li>\n"
-#	end
 
 	def footer_menu
 		s = "<div class='main_width'><p>\n"
@@ -94,6 +70,11 @@ module ApplicationHelper
 			l.push(link_to( page.menu(session[:locale]), 
 				ActionController::Base.relative_url_root + page.path ))
 		end
+
+		#	AJAXify these locale links are there is no need
+		#	for a full link.  Update the session on the server
+		#	and then translate all of the translatables.
+
 		if session[:locale] && session[:locale] == 'es'
 			l.push(link_to( 'English', locale_path('en'),
 				:id => 'session_locale' ))
