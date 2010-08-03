@@ -2,40 +2,44 @@ class HomePagePic < ActiveRecord::Base
 	validates_presence_of :title
 	validates_length_of :title, :minimum => 4
 
-	has_attached_file_options = { :styles => {
-		:full   => "900",
-		:large  => "800",
-		:medium => "600",
-		:small  => "150x50>"
-	} }
+#	has_attached_file_options = { :styles => {
+#		:full   => "900",
+#		:large  => "800",
+#		:medium => "600",
+#		:small  => "150x50>"
+#	} }
+#
+#	s3_options = {
+#		:s3_headers => {
+#			#	Set the storage class to RRS which is cheaper than 
+#			#	the default of STANDARD
+#			'x-amz-storage-class' => 'REDUCED_REDUNDANCY'
+#		},
+#		:s3_permissions => :public_read,	#	:private
+#		:storage => :s3,
+#		:s3_protocol => 'https',
+#		:s3_credentials => "#{Rails.root}/config/s3.yml",
+#		:bucket => RAILS_APP_NAME,
+#		:path => 'home_page_pics/:attachment/:id/:style/:filename'
+#		#	S3 must have a defined path or will generate
+#		#	"Stack level too deep" errors
+#	}
+#
+#	if Rails.env == 'production'
+#		has_attached_file_options.merge!(s3_options)
+#	else
+#		url = "/#{Rails.env}/system/:attachment/:id/:style/:filename"
+#		has_attached_file_options.merge!({
+#			:path => ":rails_root/public/#{url}",
+#			:url  => url
+#		})
+#	end
 
-	s3_options = {
-		:s3_headers => {
-			#	Set the storage class to RRS which is cheaper than 
-			#	the default of STANDARD
-			'x-amz-storage-class' => 'REDUCED_REDUNDANCY'
-		},
-		:s3_permissions => :public_read,	#	:private
-		:storage => :s3,
-		:s3_protocol => 'https',
-		:s3_credentials => "#{Rails.root}/config/s3.yml",
-		:bucket => RAILS_APP_NAME,
-		:path => 'home_page_pics/:attachment/:id/:style/:filename'
-		#	S3 must have a defined path or will generate
-		#	"Stack level too deep" errors
-	}
-
-	if Rails.env == 'production'
-		has_attached_file_options.merge!(s3_options)
-	else
-		url = "/#{Rails.env}/system/:attachment/:id/:style/:filename"
-		has_attached_file_options.merge!({
-			:path => ":rails_root/public/#{url}",
-			:url  => url
-		})
-	end
-
-	has_attached_file :image, has_attached_file_options
+#	has_attached_file :image, has_attached_file_options
+	has_attached_file :image,
+		YAML::load(ERB.new(IO.read(File.expand_path(
+			File.join(Rails.root,'config/home_page_pic.yml')
+		))).result)[::RAILS_ENV]
 
 #	class MissingAdapter < StandardError; end
 
