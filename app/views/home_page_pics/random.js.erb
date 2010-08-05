@@ -1,0 +1,5 @@
+<% if hpp = HomePagePic.random_active() -%>
+jQuery(function(){
+jQuery('#home_page_pic').html('<%=image_tag( hpp.image.url(:full) )%>')
+});
+<% end -%>

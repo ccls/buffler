@@ -1,8 +1,18 @@
 class HomePagePicsController < ApplicationController
 
-	before_filter :may_view_home_page_pics_required
+	skip_before_filter :login_required, :only => :random
+	skip_before_filter :build_menu_js, :only => :random
+
+	before_filter :may_view_home_page_pics_required,
+		:except => :random
 	before_filter :valid_id_required, 
-		:except => [:index,:activate,:new,:create]
+		:except => [:index,:activate,:new,:create,:random]
+
+	def random
+		respond_to do |format|
+			format.js{}
+		end
+	end
 
 	def activate
 		#["1", {"active"=>"true"}]

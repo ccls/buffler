@@ -4,7 +4,9 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resource  :calendar,   :only => [ :show ]
 
-	map.resources :home_page_pics, :collection => { :activate => :post }
+	map.resources :home_page_pics, :collection => { 
+		:random => :get,
+		:activate => :post }
 
 	#	MUST BE LAST OR WILL BLOCK ALL OTHER ROUTES!
 	#	catch all route to manage admin created pages.

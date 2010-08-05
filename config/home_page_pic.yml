@@ -5,16 +5,31 @@ DEFAULTS: &DEFAULTS
     :medium: '600'
     :small: '150x50'
 
-<% url = "/#{Rails.env}/system/:attachment/:id/:style/:filename" %>
+#	> means DO NOT enlarge, only shrink
+
+<%# url = "/#{Rails.env}/system/:attachment/:id/:style/:filename" %>
+<% common = "/system/:attachment/:id/:style/:filename" %>
+
+#>> Rails.root.to_s.split('/')
+#=> ["", "var", "lib", "tomcat5", "webapps", "ROOT", "WEB-INF"]
+
+#>> Rails.root.to_s.split('/')
+#=> ["","Users","jakewendt","github_repo","jakewendt","ucb_ccls_buffler"]
+
+<% 
+app_name = ( defined?(RAILS_APP_NAME) ) ? 
+	RAILS_APP_NAME :
+	Rails.root.to_s.split('/').reject{|x|x ==  "WEB-INF"}.last 
+%>
 
 development:
-  :url: <%= url %>
-  :path: <%= "#{Rails.root}/public" << url %>
+  :url: <%= "/development#{common}" %>
+  :path: <%= "#{Rails.root}/public" << "/development#{common}" %>
   <<: *DEFAULTS
 
 test:
-  :url: <%= url %>
-  :path: <%= "#{Rails.root}/public" << url %>
+  :url: <%= "/test#{common}" %>
+  :path: <%= "#{Rails.root}/public" << "/test#{common}" %>
   <<: *DEFAULTS
 
 production:
@@ -27,7 +42,7 @@ production:
   :storage: :s3
   :s3_protocol: https
   :s3_credentials: <%="#{Rails.root}/config/s3.yml" %>
-  :bucket: <%=RAILS_APP_NAME %>
+  :bucket: <%= app_name %>
   :path: 'home_page_pics/:attachment/:id/:style/:filename'
   # S3 must have a defined path or will generate
   # "Stack level too deep" errors
