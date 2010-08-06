@@ -135,4 +135,24 @@ end
 		assert_redirected_to_login
 	end
 
+	test "should get random via js without login or home page pics" do
+		@request.accept = "text/javascript"
+		get :random
+		assert_response :success
+		assert_match /\A\s*\z/, @response.body
+	end
+
+	test "should get random via js with home page pic and without login" do
+		Factory(:home_page_pic,:image_file_name => "somethingbogus.jpg")
+		@request.accept = "text/javascript"
+		get :random
+		assert_response :success
+		assert_match /jQuery/, @response.body
+
+#jQuery(function(){
+#jQuery('#home_page_pic').html('<img alt="Somethingbogus" src="/test/system/images/1/full/somethingbogus.jpg" />')
+#});
+
+	end
+
 end
