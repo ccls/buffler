@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
+module Ccls
 class PagesControllerTest < ActionController::TestCase
+	tests PagesController
 
 	ASSERT_ACCESS_OPTIONS = {
 		:model => 'Page',
@@ -259,4 +261,5 @@ end
 		end
 	end
 
+end
 end
