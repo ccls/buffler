@@ -3,8 +3,10 @@ class HomePagePicsController < ApplicationController
 	skip_before_filter :login_required, :only => :random
 	skip_before_filter :build_menu_js, :only => :random
 
-	before_filter :may_view_home_page_pics_required,
+#	before_filter :may_view_home_page_pics_required,
+	before_filter :may_edit_required,
 		:except => :random
+
 	before_filter :valid_id_required, 
 		:except => [:index,:activate,:new,:create,:random]
 
