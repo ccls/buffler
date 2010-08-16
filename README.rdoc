@@ -27,6 +27,8 @@
 * {rubycas-client}[http://code.google.com/p/rubycas-client/] - user authentication
 * {ucb_ldap}[http://ucbrb.rubyforge.org/ucb_ldap/] - user info
 * {ssl_requirement}[http://github.com/rails/ssl_requirement] - for managing https pages
+* {assert_this_and_that}[http://github.com/jakewendt/assert_this_and_that]
+* {ruby_extension}[http://github.com/jakewendt/ruby_extension] - modifications, updates and patches for ruby.
 
 
 == Required and included plugins
@@ -37,7 +39,6 @@
 * {backgroundrb}[http://github.com/gnufied/backgroundrb] - background job server and scheduler (includes minor mods to init.rb)
 * {rdoc_rails}[http://github.com/jakewendt/rdoc_rails] - simple plugin to add ActiveRecord associations to rdoc
 * {Paperclip}[http://github.com/thoughtbot/paperclip] - for managing attachments and images
-* {ruby_extension}[http://github.com/jakewendt/ruby_extension] - modifications, updates and patches for ruby.
 * {ucb_ccls_engine}[http://github.com/jakewendt/ucb_ccls_engine] - contains all of the user authentication and other common code used in several apps
 
 
@@ -70,7 +71,7 @@ rvm / jruby installation ( {Installing RVM}[http://rvm.beginrescueend.com/rvm/in
  rvm install jruby
  rvm use jruby
  # or perhaps ...
- rvm jruby --default
+ rvm --default jruby
 
 
 
@@ -103,6 +104,7 @@ Everybody join hands together now to install some gems ...
  #  I recommend avoiding using sudo with rvm, but its your
  #  kitchen.)
  #
+ gem source -a http://rubygems.org
  gem source -a http://gemcutter.org
  gem source -a http://gems.github.com
  sudo gem install rake rdoc 
