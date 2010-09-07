@@ -5,6 +5,8 @@
 #	Newer versions are incompatible with rails 2.3.8
 config.gem 'i18n', :version => '=0.3.7'
 
+config.gem 'jrails'
+
 config.gem 'jakewendt-rails_helpers',
 	:lib    => 'rails_helpers', 
 	:source => 'http://rubygems.org'
@@ -62,7 +64,8 @@ end
 #   change singleton_class back to metaclass
 # config.gem 'authlogic', :version => '>= 2.1.5'
 
-config.load_paths << File.expand_path(
+#config.load_paths << File.expand_path(
+config.autoload_paths << File.expand_path(
 	File.join(File.dirname(__FILE__),'..','/app/sweepers'))
 
 
