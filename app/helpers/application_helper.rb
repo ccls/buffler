@@ -11,7 +11,7 @@ module ApplicationHelper
 		s = "<div id='rootmenu' class='main_width'>\n"
 		roots.each do |page|
 			s << link_to( "&nbsp;",	#page.menu(session[:locale]), 
-				ActionController::Base.relative_url_root + page.path,
+				ActionController::Base.relative_url_root.to_s + page.path,
 				:id => "menu_#{dom_id(page)}",
 				:style => "width: #{width}px",
 				:class => ((page == @page.try(:root))?'current':nil))
@@ -30,7 +30,7 @@ module ApplicationHelper
 			@page.root.children.each do |child|
 				s << "<span class='child#{(@page==child)?" current_child":""}'>"
 				s << link_to( child.menu(session[:locale]), 
-					ActionController::Base.relative_url_root + child.path,
+					ActionController::Base.relative_url_root.to_s + child.path,
 					:id => "menu_#{dom_id(child)}" )
 				s << "</span>\n"
 			end
@@ -68,7 +68,7 @@ module ApplicationHelper
 		l = ["<span>Copyright &copy; UC Regents; all rights reserved.</span>"]
 		Page.hidden.each do |page|
 			l.push(link_to( page.menu(session[:locale]), 
-				ActionController::Base.relative_url_root + page.path ))
+				ActionController::Base.relative_url_root.to_s + page.path ))
 		end
 
 		#	AJAXify these locale links are there is no need
