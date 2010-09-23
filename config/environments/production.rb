@@ -34,4 +34,4 @@ config.action_mailer.default_url_options = {
 
 #config.action_controller.relative_url_root = '/buffler'
 #	As the root app, the subdir is no longer needed.
-config.action_controller.relative_url_root = ''
+#config.action_controller.relative_url_root = ''

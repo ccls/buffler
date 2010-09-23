@@ -26,7 +26,7 @@ Rails::Initializer.run do |config|
 
 	# This is set to /buffler in environments/production.rb
 	#	Actually, this is the ROOT app so it should stay blank!
-	config.action_controller.relative_url_root = ''
+#	config.action_controller.relative_url_root = ''
 	
 
 	#	Move all of this into engine since
