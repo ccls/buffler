@@ -10,7 +10,12 @@ class User < ActiveRecord::Base
 
 	ucb_authenticated
 
-#	alias_method :may_view_home_page_pics?, :may_edit?
-#	alias_method :may_view_calendar?,       :may_read?
+	%w(	home_page_pics ).each do |resource|
+		alias_method "may_create_#{resource}?".to_sym,  :may_edit?
+		alias_method "may_read_#{resource}?".to_sym,    :may_edit?
+		alias_method "may_edit_#{resource}?".to_sym,    :may_edit?
+		alias_method "may_update_#{resource}?".to_sym,  :may_edit?
+		alias_method "may_destroy_#{resource}?".to_sym, :may_edit?
+	end
 
 end

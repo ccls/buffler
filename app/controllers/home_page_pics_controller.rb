@@ -1,14 +1,11 @@
 class HomePagePicsController < ApplicationController
 
+	resourceful
+
 	skip_before_filter :login_required, :only => :random
 	skip_before_filter :build_menu_js, :only => :random
 
-#	before_filter :may_view_home_page_pics_required,
-	before_filter :may_edit_required,
-		:except => :random
-
-	before_filter :valid_id_required, 
-		:except => [:index,:activate,:new,:create,:random]
+	before_filter :may_edit_required, :only => :activate
 
 	def random
 		respond_to do |format|
@@ -28,48 +25,6 @@ class HomePagePicsController < ApplicationController
 		flash[:error] = "Something bad happened?"
 	ensure
 		redirect_to home_page_pics_path
-	end
-
-	def index
-		@home_page_pics = HomePagePic.all
-	end
-
-	def new
-		@home_page_pic = HomePagePic.new
-	end
-
-	def create
-		@home_page_pic = HomePagePic.new(params[:home_page_pic])
-		@home_page_pic.save!
-		flash[:notice] = 'HomePagePic was successfully created.'
-		redirect_to(@home_page_pic)
-	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-		flash.now[:error] = 'HomePagePic creation failed.'
-		render :action => "new"
-	end
-
-	def update
-		@home_page_pic.update_attributes!(params[:home_page_pic])
-		flash[:notice] = 'HomePagePic was successfully updated.'
-		redirect_to(@home_page_pic)
-	rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-		flash.now[:error] = 'HomePagePic update failed.'
-		render :action => "edit"
-	end
-
-	def destroy
-		@home_page_pic.destroy
-		redirect_to(home_page_pics_url)
-	end
-
-protected
-
-	def valid_id_required
-		if !params[:id].blank? and HomePagePic.exists?(params[:id])
-			@home_page_pic = HomePagePic.find(params[:id])
-		else
-			access_denied("HomePagePic id required!", home_page_pics_path)
-		end
 	end
 
 end
