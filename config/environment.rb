@@ -16,21 +16,7 @@ RAILS_APP_NAME = 'buffler'
 Rails::Initializer.run do |config|
 
 	config.gem 'jakewendt-ccls_engine',
-		:lib    => 'ccls_engine',
-		:source => 'http://rubygems.org'
-
-	#	rails 3 requires i18n gem which will load
-	#	a version incompatible with 2.3.8.
-	#	It will generate several of ...
-	#	The {{key}} interpolation syntax in I18n 
-	#	messages is deprecated. Please use %{key} instead.
-	#	This must be called early, or someone else will load a newer version.
-	config.gem "i18n", :version => '=0.3.7'
-
-	# This is set to /buffler in environments/production.rb
-	#	Actually, this is the ROOT app so it should stay blank!
-#	config.action_controller.relative_url_root = ''
-	
+		:lib    => 'ccls_engine'
 
 	#	Move all of this into engine since
 	#	it is the same for all 3 apps.
@@ -69,7 +55,6 @@ Rails::Initializer.run do |config|
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
 
-
 	# config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
 	config.frameworks -= [ :active_resource ]
@@ -88,7 +73,7 @@ end
 #	a User is yet, which causes lots of ...
 #	NoMethodError (undefined method `find_create_and_update_by_uid' for nil:NilClass):
 #	so ...
-require 'user'
+require 'user' unless defined?(User)
 #	Actually, this is probably only needed in development,
 #	but putting it in environments/development.rb doesn't
 #	work right, even in an after_initialize.
