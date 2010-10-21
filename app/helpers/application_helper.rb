@@ -1,3 +1,4 @@
+require 'page'
 module ApplicationHelper
 
 	def application_root_menu
