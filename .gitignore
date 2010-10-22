@@ -42,3 +42,4 @@ test_transactions.rb
 db/*.sqlite3-journal
 *.war
 database_description_*
+public/development/
