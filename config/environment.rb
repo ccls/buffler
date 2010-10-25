@@ -18,8 +18,8 @@ Rails::Initializer.run do |config|
 	config.gem 'jakewendt-ccls_engine',
 		:lib    => 'ccls_engine'
 
-	config.gem 'jakewendt-photos',
-		:lib    => 'photos'
+	config.gem 'jakewendt-simply_photos',
+		:lib    => 'simply_photos'
 
 	#	Move all of this into engine since
 	#	it is the same for all 3 apps.
