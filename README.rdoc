@@ -37,7 +37,6 @@
 * {rubycas-client}[http://code.google.com/p/rubycas-client/] - user authentication
 * {ucb_ldap}[http://ucbrb.rubyforge.org/ucb_ldap/] - user info
 * {ssl_requirement}[http://github.com/rails/ssl_requirement] - for managing https pages
-* {jakewendt-assert_this_and_that}[http://github.com/jakewendt/assert_this_and_that]
 * {jakewendt-ruby_extension}[http://github.com/jakewendt/ruby_extension] - modifications, updates and patches for ruby.
 * {jakewendt-ccls_engine}[http://github.com/jakewendt/ucb_ccls_engine] - contains all of the user authentication and other code used in several apps
 * {jakewendt-simply_pages}[http://github.com/jakewendt/simply_pages]
@@ -181,7 +180,7 @@ Tomcat will unarchive the war file and DESTROY the existing unarchived version! 
 
  ( warble from a jruby environment to get the jruby specific gems )
 
- [jakewendt@dev : ucb_ccls_buffler ]>
+ [jakewendt@dev : buffler ]>
  bash
  rvm use jruby
  warble
