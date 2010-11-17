@@ -1,6 +1,9 @@
 # Disable automatic framework detection by uncommenting/setting to false
 # Warbler.framework_detection = false
 
+gem 'jakewendt-ccls_engine'
+require 'ccls_engine/warble'
+
 # Warbler web application assembly configuration file
 Warbler::Config.new do |config|
 	# Features: additional options controlling how the jar is built.
