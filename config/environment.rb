@@ -58,6 +58,7 @@ Rails::Initializer.run do |config|
 	config.gem "chronic"   #		http://chronic.rubyforge.org/
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
+	config.gem "aws-s3", :lib => "aws/s3"
 
 	# config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
