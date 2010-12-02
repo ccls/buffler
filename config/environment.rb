@@ -16,33 +16,14 @@ RAILS_APP_NAME = 'buffler'
 Rails::Initializer.run do |config|
 
 	if RUBY_PLATFORM =~ /java/
-		#	For functionality with rvm/jruby
-		#	I expected to have to change database.yml for this but didn't
 		config.gem 'activerecord-jdbcsqlite3-adapter',
-			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter' #,
- #			:version => '~>0.9'
-		#	1.0.1 is for rails 3 I think
+			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter'
 		config.gem 'activerecord-jdbcmysql-adapter',
-			:lib => 'active_record/connection_adapters/jdbcmysql_adapter' #,
- #			:version => '~>0.9'
-		#	1.0.1 is for rails 3 I think
-
-		#	Additional jruby specific jars required in the war
+			:lib => 'active_record/connection_adapters/jdbcmysql_adapter'
 		config.gem 'jdbc-mysql', :lib => 'jdbc/mysql'
 		config.gem 'jdbc-sqlite3', :lib => 'jdbc/sqlite3'
 		config.gem 'jruby-openssl', :lib => 'openssl'
 	else
-
-		# If using mysql ...
-		# On Mac OS X:
-		#   sudo gem install mysql -- --with-mysql-dir=/usr/local/mysql
-		# On Mac OS X Leopard:
-		#   sudo env ARCHFLAGS="-arch i386" gem install mysql 
-		#			-- --with-mysql-config=/usr/local/mysql/bin/mysql_config
-		# ... however, I had to install the mysql gem like so ...
-		#   sudo env ARCHFLAGS="-arch x86_64" gem install mysql 
-		#			-- --with-mysql-config=/usr/local/mysql/bin/mysql_config
-
 		config.gem 'mysql'
 		config.gem "sqlite3-ruby", :lib => "sqlite3"
 	end
