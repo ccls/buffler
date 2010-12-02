@@ -15,28 +15,20 @@ RAILS_APP_NAME = 'buffler'
 
 Rails::Initializer.run do |config|
 
-	config.gem 'jakewendt-ccls_engine',
-		:lib    => 'ccls_engine'
-
-	config.gem 'jakewendt-simply_photos',
-		:lib    => 'simply_photos'
-
-	#	Move all of this into engine since
-	#	it is the same for all 3 apps.
-
 	if RUBY_PLATFORM =~ /java/
 		#	For functionality with rvm/jruby
 		#	I expected to have to change database.yml for this but didn't
 		config.gem 'activerecord-jdbcsqlite3-adapter',
-			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter',
-			:version => '~>0.9'
+			:lib => 'active_record/connection_adapters/jdbcsqlite3_adapter' #,
+ #			:version => '~>0.9'
 		#	1.0.1 is for rails 3 I think
 		config.gem 'activerecord-jdbcmysql-adapter',
-			:lib => 'active_record/connection_adapters/jdbcmysql_adapter',
-			:version => '~>0.9'
+			:lib => 'active_record/connection_adapters/jdbcmysql_adapter' #,
+ #			:version => '~>0.9'
 		#	1.0.1 is for rails 3 I think
 
 		#	Additional jruby specific jars required in the war
+		config.gem 'jdbc-mysql', :lib => 'jdbc/mysql'
 		config.gem 'jdbc-sqlite3', :lib => 'jdbc/sqlite3'
 		config.gem 'jruby-openssl', :lib => 'openssl'
 	else
@@ -54,6 +46,14 @@ Rails::Initializer.run do |config|
 		config.gem 'mysql'
 		config.gem "sqlite3-ruby", :lib => "sqlite3"
 	end
+
+	#	due to some enhancements, the db gems MUST come first
+	#	for use in the jruby environment.
+	config.gem 'jakewendt-ccls_engine',
+		:lib    => 'ccls_engine'
+
+	config.gem 'jakewendt-simply_photos',
+		:lib    => 'simply_photos'
 
 	config.gem "chronic"   #		http://chronic.rubyforge.org/
 	config.gem 'will_paginate'
