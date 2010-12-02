@@ -11,7 +11,7 @@ coverage
 coverage.data
 config/s3.yml
 config/fed_ex.yml
-config/database.yml
+config/*database.yml
 config/initializers/session_store.rb
 config/initializers/mail.rb
 public/javascripts-prototype/
@@ -43,3 +43,4 @@ db/*.sqlite3-journal
 *.war
 database_description_*
 public/development/
+db/test_*_schema.rb
