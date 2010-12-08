@@ -1,6 +1,7 @@
+# A picture used soley on the home page
 class HomePagePic < ActiveRecord::Base
 	validates_presence_of :title
-	validates_length_of :title, :minimum => 4
+	validates_length_of :title, :in => 4..250
 
 	has_attached_file :image,
 		YAML::load(ERB.new(IO.read(File.expand_path(
@@ -9,6 +10,7 @@ class HomePagePic < ActiveRecord::Base
 
 #	class MissingAdapter < StandardError; end
 
+	#	Return a randomly selected active HomePagePic
 	def self.random_active
 #		#	there should be a better way.  a rails way.
 #		#	This will cause code to be untested.
@@ -19,9 +21,9 @@ class HomePagePic < ActiveRecord::Base
 #		end
 #		first( :order => random, :conditions => { :active => true } )
 		conditions = [ 'active = ? AND image_file_name IS NOT NULL', true ]
-		c = HomePagePic.count(:conditions => conditions )
-		if c > 0
-			first(:offset => rand(c), :conditions => conditions )
+		count = HomePagePic.count(:conditions => conditions )
+		if count > 0
+			first(:offset => rand(count), :conditions => conditions )
 		else
 			nil
 		end

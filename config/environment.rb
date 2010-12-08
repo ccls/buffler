@@ -39,6 +39,9 @@ Rails::Initializer.run do |config|
 	config.gem 'jakewendt-ccls_engine',
 		:lib    => 'ccls_engine'
 
+	config.gem 'jakewendt-simply_authorized',
+		:lib    => 'simply_authorized'
+
 	config.gem 'jakewendt-simply_photos',
 		:lib    => 'simply_photos'
 
