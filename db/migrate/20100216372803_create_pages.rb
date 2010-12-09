@@ -1,6 +1,6 @@
 class CreatePages < ActiveRecord::Migration
 	def self.up
-		table_name = pages
+		table_name = 'pages'
 		create_table table_name do |t|
 			t.integer :position
 			t.integer :parent_id
