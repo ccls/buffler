@@ -37,7 +37,6 @@ script/server_secure
 script/webrick
 surveys/fixtures/
 test/declarative.rb.asdf
-test/unit/helpers/
 test_transactions.rb
 db/*.sqlite3-journal
 *.war
