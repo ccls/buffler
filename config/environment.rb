@@ -48,6 +48,9 @@ Rails::Initializer.run do |config|
 	config.gem 'jakewendt-simply_photos',
 		:lib    => 'simply_photos'
 
+	#	require it, but don't load it
+	config.gem 'jakewendt-rdoc_rails', :lib => false
+
 	config.gem "chronic"   #		http://chronic.rubyforge.org/
 	config.gem 'will_paginate'
 	config.gem 'fastercsv'
