@@ -12,9 +12,35 @@
 <script src="/javascripts/jquery-ui.js" type="text/javascript"></script>
 <script src="/javascripts/jrails.js" type="text/javascript"></script>
 <script type="text/javascript">
+//http://www.quirksmode.org/js/cookies.html
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+
 var hours = [ 1,2,3,4,5,6,7,8,9,10,11,12 ];
 var days = [ 'Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-var out_time_zones = [ ];
+var time_zones = [ ];
 var all_time_zones = [
 	{region:'France: French Polynesia UTC-10',offset:'UTC-10'},
 	{region:'France: Marquesas Islands UTC-09:30',offset:'UTC-09:30'},
@@ -27,295 +53,308 @@ var all_time_zones = [
 	{region:'France: Réunion UTC+04',offset:'UTC+04'},
 	{region:'France: Kerguelen Islands UTC+05',offset:'UTC+05'},
 	{region:'France: New Caledonia UTC+11',offset:'UTC+11'},
-	{region:'France: Wallis and Futuna UTC+12',offset:'UTC+12'}
-];
-/*
+	{region:'France: Wallis and Futuna UTC+12',offset:'UTC+12'},
 
- United States 	UTC-12 — Baker Island and Howland Island
-UTC-11 (SST) — American Samoa and Midway Atoll
-UTC-10 (HAST) — Hawaii and most of the Aleutian Islands
-UTC-09 (AKST) — most of the state of Alaska
-UTC-08 (PST) — the states on the Pacific coast plus Nevada
-UTC-07 (MST) — the states that include the Rocky Mountains
-UTC-06 (CST) — Gulf Coast, Tennessee Valley, and Great Plains
-UTC-05 (EST) — the states on the Atlantic coast, the eastern two thirds of the Ohio Valley and most of Michigan
-UTC-04 (AST) — Puerto Rico, the U.S. Virgin Islands and Palmer Station
-UTC+10 (ChST) — Guam and the Northern Mariana Islands
-UTC+12 — Wake Island, McMurdo Station, and Amundsen-Scott South Pole Station
+	{region:'US:	UTC-12 — Baker Island and Howland Island',offset:'UTC-12'},
+	{region:'US: UTC-11 (SST) — American Samoa and Midway Atoll',offset:'UTC-11'},
+	{region:'US: UTC-10 (HAST) — Hawaii and most of the Aleutian Islands',offset:'UTC-10'},
+	{region:'US: UTC-09 (AKST) — most of the state of Alaska',offset:'UTC-09'},
+	{region:'US: UTC-08 (PST) — the states on the Pacific coast plus Nevada',offset:'UTC-08'},
+	{region:'US: UTC-07 (MST) — the states that include the Rocky Mountains',offset:'UTC-07'},
+	{region:'US: UTC-06 (CST) — Gulf Coast, Tennessee Valley, and Great Plains',offset:'UTC-06'},
+	{region:'US: UTC-05 (EST) — the states on the Atlantic coast, the eastern two thirds of the Ohio Valley and most of Michigan',offset:'UTC-05'},
+	{region:'US: UTC-04 (AST) — Puerto Rico, the U.S. Virgin Islands and Palmer Station',offset:'UTC-04'},
+	{region:'US: UTC+10 (ChST) — Guam and the Northern Mariana Islands',offset:'UTC+1-'},
+	{region:'US: UTC+12 — Wake Island, McMurdo Station, and Amundsen-Scott South Pole Station',offset:'UTC+12'},
 
- Russia 	UTC+02 (Kaliningrad Time) — Kaliningrad Oblast
-UTC+03 (Moscow Time) — Most of European Russia and all railroads throughout Russia
-UTC+05 (Yekaterinburg Time) — Bashkortostan, Chelyabinsk Oblast, Khantia-Mansia, Kurgan Oblast, Orenburg Oblast, Perm Krai, Sverdlovsk Oblast, Tyumen Oblast, and Yamalia
-UTC+06 (Omsk Time) — Altai Krai, Altai Republic, Kemerovo Oblast, Novosibirsk Oblast, Omsk Oblast and Tomsk Oblast
-UTC+07 (Krasnoyarsk Time) — Khakassia, Krasnoyarsk Krai and Tuva
-UTC+08 (Irkutsk Time) — Buryatia and Irkutsk Oblast
-UTC+09 (Yakutsk Time) — Amur Oblast, western Sakha Republic and Zabaykalsky Krai
-UTC+10 (Vladivostok Time) — The Jewish Autonomous Oblast, Khabarovsk Krai, Primorsky Krai, central Sakha Republic and Sakhalin Island
-UTC+11 (Magadan Time) — Magadan Oblast, eastern Sakha, Kuril Islands, Chukotka and Kamchatka Krai
+	{region:'Russia: UTC+02 (Kaliningrad Time) — Kaliningrad Oblast',offset:'UTC+02'},
+	{region:'Russia: UTC+03 (Moscow Time) — Most of European Russia and all railroads throughout Russia',offset:'UTC+03'},
+//	{region:'Russia: UTC+05 (Yekaterinburg Time) — Bashkortostan, Chelyabinsk Oblast, Khantia-Mansia, Kurgan Oblast, Orenburg Oblast, Perm Krai, Sverdlovsk Oblast, Tyumen Oblast, and Yamalia',offset:'UTC+05'},
+	{region:'Russia: UTC+05 (Yekaterinburg Time) — Bashkortostan, Chelyabinsk Oblast, ...',offset:'UTC+05'},
+	{region:'Russia: UTC+06 (Omsk Time) — Altai Krai, Altai Republic, Kemerovo Oblast, Novosibirsk Oblast, Omsk Oblast and Tomsk Oblast',offset:'UTC+06'},
+	{region:'Russia: UTC+07 (Krasnoyarsk Time) — Khakassia, Krasnoyarsk Krai and Tuva',offset:'UTC+07'},
+	{region:'Russia: UTC+08 (Irkutsk Time) — Buryatia and Irkutsk Oblast',offset:'UTC+08'},
+	{region:'Russia: UTC+09 (Yakutsk Time) — Amur Oblast, western Sakha Republic and Zabaykalsky Krai',offset:'UTC+09'},
+	{region:'UTC+10 (Vladivostok Time) — The Jewish Autonomous Oblast, Khabarovsk Krai, Primorsky Krai, central Sakha Republic and Sakhalin Island',offset:'UTC+10'},
+	{region:'UTC+11 (Magadan Time) — Magadan Oblast, eastern Sakha, Kuril Islands, Chukotka and Kamchatka Krai',offset:'UTC+11'},
 
- Australia 	UTC+05 — Heard and McDonald Islands
-UTC+06:30 — Cocos (Keeling) Islands
-UTC+07 (CXT) — Christmas Island
-UTC+08 (AWST) — Western Australia
-UTC+09:30 (ACST) — Southern Australia, Northern Territory
-UTC+10 (AEST) — Queensland, New South Wales, Australian Capital Territory, Victoria, Tasmania
-UTC+10:30 — Lord Howe Island
-UTC+11:30 (NFT) — Norfolk Island
+	{region:'Australia: UTC+05 — Heard and McDonald Islands',offset:'UTC+05'},
+	{region:'Australia: UTC+06:30 — Cocos (Keeling) Islands',offset:'UTC+06:30'},
+	{region:'Australia: UTC+07 (CXT) — Christmas Island',offset:'UTC+07'},
+	{region:'Australia: UTC+08 (AWST) — Western Australia',offset:'UTC+08'},
+	{region:'Australia: UTC+09:30 (ACST) — Southern Australia, Northern Territory',offset:'UTC+09:30'},
+	{region:'Australia: UTC+10 (AEST) — Queensland, New South Wales, Australian Capital Territory, Victoria, Tasmania',offset:'UTC+10'},
+	{region:'Australia: UTC+10:30 — Lord Howe Island',offset:'UTC+10:30'},
+	{region:'Australia: UTC+11:30 (NFT) — Norfolk Island',offset:'UTC+11:30'},
 
- United Kingdom 	UTC-08 — Pitcairn Islands
-UTC-05 — Cayman Islands, Turks and Caicos Islands
-UTC-04 (AST) — Anguilla, Bermuda, British Virgin Islands, Falkland Islands, Montserrat
-UTC-02 — South Georgia and the South Sandwich Islands
-UTC (GMT) — main territory of the United Kingdom, Saint Helena, Ascension and Tristan da Cunha, Guernsey, Isle of Man, Jersey
-UTC+01 (CET) — Gibraltar
-UTC+02 (EET) — Akrotiri and Dhekelia
-UTC+06 — British Indian Ocean Territory
+	{region:'UK: UTC-08 — Pitcairn Islands',offset:'UTC-08'},
+	{region:'UK: UTC-05 — Cayman Islands, Turks and Caicos Islands',offset:'UTC-05'},
+	{region:'UK: UTC-04 (AST) — Anguilla, Bermuda, British Virgin Islands, Falkland Islands, Montserrat',offset:'UTC-04'},
+	{region:'UK: UTC-02 — South Georgia and the South Sandwich Islands',offset:'UTC-02'},
+	{region:'UK: UTC (GMT) — main territory of the United Kingdom, Saint Helena, Ascension and Tristan da Cunha, Guernsey, Isle of Man, Jersey',offset:'UTC+00'},
+	{region:'UK: UTC+01 (CET) — Gibraltar',offset:'UTC+01'},
+	{region:'UK: UTC+02 (EET) — Akrotiri and Dhekelia',offset:'UTC+02'},
+	{region:'UK: UTC+06 — British Indian Ocean Territory',offset:'UTC+06'},
 
- Canada 	UTC-08 (PST) — larger western part of British Columbia, Tungsten and the associated Cantung Mine in Northwest Territories, Yukon
-UTC-07 (MST) — Alberta, some eastern parts of British Columbia, most of Northwest Territories, Nunavut (west of 102°W and all communities in the Kitikmeot Region), Lloydminster and surrounding area in Saskatchewan
-UTC-06 (CST) — Manitoba, Nunavut (between 85° West and 102°W except western Southampton Island), Ontario (Northwestern Ontario west of 90°W with some exceptions and Big Trout Lake area east of 90°W), Saskatchewan except Lloydminster
-UTC-05 (EST) — Nunavut east of 85°W and entire Southampton Island, Ontario east of 90°W (except Big Trout Lake area) plus several more western areas, Quebec (most of province)
-UTC-04 (AST) — Labrador (all but southeastern tip), New Brunswick, Nova Scotia, Prince Edward Island, eastern part of Quebec
-UTC-03:30 (NST) — Labrador (southeastern), Newfoundland
-
- Kingdom of Denmark 	UTC-04 — northwestern Greenland
-UTC-03 — most of Greenland, including inhabited south coast and southwest coast
-UTC-01 — Ittoqqortoormiit and surrounding area in Greenland's Tunu county
-UTC — (GMT) — Danmarkshavn weather station and surrounding area in Greenland's Tunu county, Faroe Islands
-UTC+01 — (CET) — metropolitan Denmark
- New Zealand 	UTC-11 — Niue
-UTC-10 — Cook Islands and Tokelau
-UTC+12 — main territory of New Zealand
-UTC+12:45 — Chatham Islands
-
- Brazil 	UTC-04 (Brasilia time - 1) — Amazonas, Mato Grosso, Mato Grosso do Sul, Rondônia, Roraima, Acre
-UTC-03 (Brasilia time) — the Southeast Region, the South Region, the Northeast Region (except some islands), Goias, Distrito Federal, Tocantins, Pará, Amapa
-UTC-02 (Brasilia time + 1) — few islands on the east coast of Brazil (Fernando de Noronha, Trindade, Martin Vaz, Atol das Rocas, Saint Peter and Paul Rocks)
-
- Indonesia 	UTC+07 (Western Indonesian Standard Time) — islands of Sumatra, Java, provinces of West Kalimantan and Central Kalimantan
-UTC+08 (Central Indonesian Standard Time) — islands of Sulawesi, Bali, provinces of East Nusa Tenggara, West Nusa Tenggara, East Kalimantan and South Kalimantan
-UTC+09 (Eastern Indonesian Standard Time) — provinces of Maluku, North Maluku, Papua and West Papua
-
- Kiribati 	UTC+12 — Gilbert Islands
-UTC+13 — Phoenix Islands
-UTC+14 — Line Islands
- Mexico 	UTC-08 (Zone 3 or Northwest Zone) — the state of Baja California
-UTC-07 (Zone 2 or Pacific Zone) — the states of Baja California Sur, Chihuahua, Nayarit, Sinaloa and Sonora
-UTC-06 (Zone 1 or Central Zone) — most of Mexico
-
- Chile 	UTC-06 — Easter Island
-UTC-04 — main territory
-
- Democratic Republic of the Congo 	UTC+01 (WAT) — western part of the country
-UTC+02 (CAT) — eastern part of the country
- Ecuador 	UTC-06 (GALT) — Galápagos Province
-UTC-05 (Ecuador Time) — main territory of Ecuador
- Kazakhstan 	UTC+05 — western Kazakhstan
-UTC+06 — eastern Kazakhstan
- Federated States of Micronesia 	UTC+10 — the states of Chuuk and Yap
-UTC+11 — the states of Kosrae and Pohnpei
- Mongolia 	UTC+07 — the provinces of Khovd, Uvs and Bayan-Ölgii
-UTC+08 — most of the country
- Kingdom of the Netherlands 	UTC-04 (AST) — countries of Aruba and the former Netherlands Antilles
-
-UTC+01 (CET) — country of the Netherlands
- Portugal 	2 	UTC-01 — Azores
-UTC (WET) — Madeira and the main territory of Portugal
- Spain 	2 	UTC (WET) — Canary Islands
-UTC+01 (CET) — main territory of Spain
- Afghanistan 	1 	UTC+04:30
- Albania 	1 	UTC+01 (CET)
- Algeria 	1 	UTC+01 (CET)
- Andorra 	1 	UTC+01 (CET)
- Angola 	1 	UTC+01 (WAT)
- Antigua and Barbuda 	1 	UTC-04 (AST)
- Argentina 	1 	UTC-03 (ART)
- Armenia 	1 	UTC+04
- Austria 	1 	UTC+01 (CET)
- Azerbaijan 	1 	UTC+04
- Bahamas 	1 	UTC-05 (EST)
- Bahrain 	1 	UTC+03
- Bangladesh 	1 	UTC+06 (BDT)
- Barbados 	1 	UTC-04
- Belarus 	1 	UTC+02 (EET)
- Belgium 	1 	UTC+01 (CET)
-
- Belize 	1 	UTC-06
- Benin 	1 	UTC+01 (WAT)
- Bhutan 	1 	UTC+06 (BTT)
- Bolivia 	1 	UTC-04
- Bosnia and Herzegovina 	1 	UTC+01 (CET)
- Botswana 	1 	UTC+02 (CAT)
- Brunei 	1 	UTC+08
- Bulgaria 	1 	UTC+02 (EET)
- Burkina Faso 	1 	UTC (GMT)
- Burundi 	1 	UTC+02 (CAT)
- Cambodia 	1 	UTC+07
- Cameroon 	1 	UTC+01 (WAT)
- Cape Verde 	1 	UTC-01 (Cape Verde Time)
- Central African Republic 	1 	UTC+01 (WAT)
- Chad 	1 	UTC-01 (Cape Verde Time)
- China 	1 	UTC+08 (Chinese Standard Time)
-
- Colombia 	1 	UTC-05
- Comoros 	1 	UTC+03 (EAT)
- Republic of the Congo 	1 	UTC+01 (WAT)
- Costa Rica 	1 	UTC-06
- Côte d'Ivoire 	1 	UTC (GMT)
- Croatia 	1 	UTC+01 (CET)
- Cuba 	1 	UTC-05
- Cyprus 	1 	UTC+02 (EET)
- Czech Republic 	1 	UTC+01 (CET) (CRT)
- Djibouti 	1 	UTC+03 (EAT)
- Dominica 	1 	UTC-04
- Dominican Republic 	1 	UTC-04
- East Timor 	1 	UTC+09
- Egypt 	1 	UTC+02 (EET)
- El Salvador 	1 	UTC-06
- Equatorial Guinea 	1 	UTC+01 (WAT)
- Eritrea 	1 	UTC+03 (EAT)
- Estonia 	1 	UTC+02 (EET)
- Ethiopia 	1 	UTC+03 (EAT)
-
- Fiji 	1 	UTC+12
- Finland 	1 	UTC+02 (EET)
- Gabon 	1 	UTC+01 (WAT)
- Gambia 	1 	UTC (GMT)
- Georgia 	1 	UTC+04
- Germany 	1 	UTC+01 (CET)
-
- Ghana 	1 	UTC (GMT)
- Greece 	1 	UTC+02 (EET)
- Grenada 	1 	UTC-04
- Guatemala 	1 	UTC-06
- Guinea 	1 	UTC (GMT)
- Guinea-Bissau 	1 	UTC (GMT)
- Guyana 	1 	UTC-04
- Haiti 	1 	UTC-05
- Honduras 	1 	UTC-06
- Hong Kong 	1 	UTC+08 (HKT)
- Hungary 	1 	UTC+01 (CET)
- Iceland 	1 	UTC (GMT)
- India 	1 	UTC+05:30 (IST)
- Iran 	1 	UTC+03:30 (IRST)
- Iraq 	1 	UTC+03
- Ireland 	1 	UTC (WET)
- Israel 	1 	UTC+02 (IST)
- Italy 	1 	UTC+01 (CET)
- Jamaica 	1 	UTC-05
- Japan 	1 	UTC+09 (JST)
- Jordan 	1 	UTC+02
- Kenya 	1 	UTC+03 (EAT)
-
- North Korea 	1 	UTC+09 (Korea Standard Time)
- South Korea 	1 	UTC+09 (Korea Standard Time)
- Kosovo 	1 	UTC+01 (CET)
- Kuwait 	1 	UTC+03 (Arabia Standard Time)
- Kyrgyzstan 	1 	UTC+06
- Laos 	1 	UTC+07
- Latvia 	1 	UTC+02 (EET)
- Lebanon 	1 	UTC+02 (EET)
- Lesotho 	1 	UTC+02
- Liberia 	1 	UTC (GMT)
- Libya 	1 	UTC+02 (EET)
- Liechtenstein 	1 	UTC+01 (CET)
- Lithuania 	1 	UTC+02 (EET)
- Luxembourg 	1 	UTC+01 (CET)
- Macau 	1 	UTC+08 (Macau Standard Time)
-Republic of Macedonia Republic of Macedonia 	1 	UTC+01 (CET)
- Madagascar 	1 	UTC+03 (EAT)
- Malawi 	1 	UTC+02 (CAT)
- Malaysia 	1 	UTC+08 (Malaysian Standard Time)
- Maldives 	1 	UTC+05
- Mali 	1 	UTC (GMT)
- Malta 	1 	UTC+01 (CET)
- Marshall Islands 	1 	UTC+12
- Mauritania 	1 	UTC (GMT)
- Mauritius 	1 	UTC+04 (Mauritius Time)
- Moldova 	1 	UTC+02 (EET)
- Monaco 	1 	UTC+01 (CET)
- Montenegro 	1 	UTC+01 (CET)
- Morocco 	1 	UTC (WET)
- Mozambique 	1 	UTC+02 (CAT)
- Myanmar 	1 	UTC+06:30 (MST)
- Namibia 	1 	UTC+01 (WAT)
- Nauru 	1 	UTC+12
- Nepal 	1 	UTC+05:45 (Nepal Time)
- Nicaragua 	1 	UTC-06
- Niger 	1 	UTC+01 (WAT)
- Nigeria 	1 	UTC+01 (WAT)
- Norway 	1 	UTC+01 (CET)
-
- Oman 	1 	UTC+04
- Pakistan 	1 	UTC+05 (PST)
- Palau 	1 	UTC+09
- Panama 	1 	UTC-05
- Papua New Guinea 	1 	UTC+10
- Paraguay 	1 	UTC-04
- Peru 	1 	UTC-05 (PET)
- Philippines 	1 	UTC+08 (PHT)
- Poland 	1 	UTC+01 (CET)
- Qatar 	1 	UTC+03 (Arabia Standard Time)
- Romania 	1 	UTC+02 (EET)
- Rwanda 	1 	UTC+02 (CAT)
- Saint Kitts and Nevis 	1 	UTC-04
- Saint Lucia 	1 	UTC-04
- Saint Vincent and the Grenadines 	1 	UTC-04
- Samoa 	1 	UTC-11
- San Marino 	1 	UTC+01 (CET)
- São Tomé and Príncipe 	1 	UTC (GMT)
- Saudi Arabia 	1 	UTC+03 (Arabia Standard Time)
- Senegal 	1 	UTC (GMT)
- Serbia 	1 	UTC+01 (CET)
- Seychelles 	1 	UTC+04 (Seychelles Time)
- Sierra Leone 	1 	UTC (GMT)
- Singapore 	1 	UTC+08 (SST)
- Slovakia 	1 	UTC+01 (CET)
- Slovenia 	1 	UTC+01 (CET)
- Solomon Islands 	1 	UTC+11
- Somalia 	1 	UTC+03 (EAT)
- South Africa 	1 	UTC+02 (South African Standard Time)
- Sri Lanka 	1 	UTC+05:30 (SLT)
- Sudan 	1 	UTC+03 (EAT)
- Suriname 	1 	UTC-03
- Swaziland 	1 	UTC+02
- Sweden 	1 	UTC+01 (CET)
- Switzerland 	1 	UTC+01 (CET)
- Syria 	1 	UTC+02 (EET)
- Tajikistan 	1 	UTC+05
- Tanzania 	1 	UTC+03 (EAT)
- Thailand 	1 	UTC+07 (THA)
-
- Togo 	1 	UTC (GMT)
- Tonga 	1 	UTC+13
- Trinidad and Tobago 	1 	UTC-04
- Tunisia 	1 	UTC+01 (CET)
- Turkey 	1 	UTC+02 (EET)
- Turkmenistan 	1 	UTC+05
- Tuvalu 	1 	UTC+12
- Uganda 	1 	UTC+03 (EAT)
- Ukraine 	1 	UTC+02 (EET)
- United Arab Emirates 	1 	UTC+04
- Uruguay 	1 	UTC-03
- Uzbekistan 	1 	UTC+05 (Uzbekistan Time)
- Vanuatu 	1 	UTC+11
- Vatican City 	1 	UTC+01 (CET)
- Venezuela 	1 	UTC-04:30
-
- Vietnam 	1 	UTC+07 (Indochina Time)
- Yemen 	1 	UTC+03
- Zambia 	1 	UTC+02 (CAT)
- Zimbabwe 	1 	UTC+02 (CAT)
+/*	{region:'Canada: UTC-08 (PST) — larger western part of British Columbia, Tungsten and the associated Cantung Mine in Northwest Territories, Yukon',offset:'UTC-08'},
+	{region:'Canada: UTC-07 (MST) — Alberta, some eastern parts of British Columbia, most of Northwest Territories, Nunavut (west of 102°W and all communities in the Kitikmeot Region), Lloydminster and surrounding area in Saskatchewan',offset:'UTC-07'},
+	{region:'Canada: UTC-06 (CST) — Manitoba, Nunavut (between 85° West and 102°W except western Southampton Island), Ontario (Northwestern Ontario west of 90°W with some exceptions and Big Trout Lake area east of 90°W), Saskatchewan except Lloydminster',offset:'UTC-06'},
+	{region:'Canada: UTC-05 (EST) — Nunavut east of 85°W and entire Southampton Island, Ontario east of 90°W (except Big Trout Lake area) plus several more western areas, Quebec (most of province)',offset:'UTC-05'},
 */
+	{region:'Canada: UTC-08 (PST) — larger western part of British Columbia, Tungsten and ...',offset:'UTC-08'},
+	{region:'Canada: UTC-07 (MST) — Alberta, some eastern parts of British Columbia, ...',offset:'UTC-07'},
+	{region:'Canada: UTC-06 (CST) — Manitoba, Nunavut (between 85° West and 102°W except ...',offset:'UTC-06'},
+	{region:'Canada: UTC-05 (EST) — Nunavut east of 85°W and entire Southampton Island, ...',offset:'UTC-05'},
+	{region:'Canada: UTC-04 (AST) — Labrador (all but southeastern tip), New Brunswick, Nova Scotia, Prince Edward Island, eastern part of Quebec',offset:'UTC-04'},
+	{region:'Canada: UTC-03:30 (NST) — Labrador (southeastern), Newfoundland',offset:'UTC-03:30'},
+	{region:'Denmark: UTC-04 — northwestern Greenland',offset:'UTC-04'},
+	{region:'Denmark: UTC-03 — most of Greenland, including inhabited south coast and southwest coast',offset:'UTC-03'},
+	{region:'Denmark: UTC-01 — Ittoqqortoormiit and surrounding area in Greenlands Tunu county',offset:'UTC-01'},
+	{region:'Denmark: UTC — (GMT) — Danmarkshavn weather station and surrounding area in Greenlands Tunu county, Faroe Islands',offset:'UTC-00'},
+	{region:'Denmark: UTC+01 — (CET) — metropolitan Denmark',offset:'UTC+01'},
+	{region:'New Zealand: UTC-11 — Niue',offset:'UTC-11'},
+	{region:'New Zealand: UTC-10 — Cook Islands and Tokelau',offset:'UTC-10'},
+	{region:'New Zealand: UTC+12 — main territory of New Zealand',offset:'UTC+12'},
+	{region:'New Zealand: UTC+12:45 — Chatham Islands',offset:'UTC+12:45'},
+
+	{region:'Brazil: UTC-04 (Brasilia time - 1)',offset:'UTC-04'},
+	{region:'Brazil: UTC-03 (Brasilia time)',offset:'UTC-03'},
+	{region:'Brazil: UTC-02 (Brasilia time + 1)',offset:'UTC-02'},
+
+/*
+	{region:'Brazil: UTC-04 (Brasilia time - 1) — Amazonas, Mato Grosso, Mato Grosso do Sul, Rondônia, Roraima, Acre',offset:'UTC-04'},
+	{region:'Brazil: UTC-03 (Brasilia time) — the Southeast Region, the South Region, the Northeast Region (except some islands), Goias, Distrito Federal, Tocantins, Pará, Amapa',offset:'UTC-03'},
+	{region:'Brazil: UTC-02 (Brasilia time + 1) — few islands on the east coast of Brazil (Fernando de Noronha, Trindade, Martin Vaz, Atol das Rocas, Saint Peter and Paul Rocks)',offset:'UTC-02'},
+
+	{region:'Indonesia: UTC+07 (Western Indonesian Standard Time) — islands of Sumatra, Java, provinces of West Kalimantan and Central Kalimantan',offset:'UTC+07'},
+	{region:'Indonesia: UTC+08 (Central Indonesian Standard Time) — islands of Sulawesi, Bali, provinces of East Nusa Tenggara, West Nusa Tenggara, East Kalimantan and South Kalimantan',offset:'UTC+08'},
+	{region:'Indonesia: UTC+09 (Eastern Indonesian Standard Time) — provinces of Maluku, North Maluku, Papua and West Papua',offset:'UTC+09'},
+*/
+	{region:'Indonesia: UTC+07 (Western Indonesian Standard Time)',offset:'UTC+07'},
+	{region:'Indonesia: UTC+08 (Central Indonesian Standard Time)',offset:'UTC+08'},
+	{region:'Indonesia: UTC+09 (Eastern Indonesian Standard Time)',offset:'UTC+09'},
+
+	{region:'Kiribati: UTC+12 — Gilbert Islands',offset:'UTC+12'},
+	{region:'Kiribati: UTC+13 — Phoenix Islands',offset:'UTC+13'},
+	{region:'Kiribati: UTC+14 — Line Islands',offset:'UTC+14'},
+	{region:'Mexico: UTC-08 (Zone 3 or Northwest Zone) — the state of Baja California',offset:'UTC-08'},
+	{region:'Mexico: UTC-07 (Zone 2 or Pacific Zone) — the states of Baja California Sur, Chihuahua, Nayarit, Sinaloa and Sonora',offset:'UTC-07'},
+	{region:'Mexico: UTC-06 (Zone 1 or Central Zone) — most of Mexico',offset:'UTC-06'},
+
+	{region:'Chile: UTC-06 — Easter Island',offset:'UTC-06'},
+	{region:'Chile: UTC-04 — main territory',offset:'UTC-04'},
+	{region:'Congo: UTC+01 (WAT) — western part of the country',offset:'UTC+01'},
+	{region:'Congo: UTC+02 (CAT) — eastern part of the country',offset:'UTC+02'},
+	{region:'Ecuador: UTC-06 (GALT) — Galápagos Province',offset:'UTC-06'},
+	{region:'Ecuador: UTC-05 (Ecuador Time) — main territory of Ecuador',offset:'UTC-05'},
+	{region:'Kazakhstan: UTC+05 — western Kazakhstan',offset:'UTC+05'},
+	{region:'Kazakhstan: UTC+06 — eastern Kazakhstan',offset:'UTC+06'},
+	{region:'Micronesia: UTC+10 — the states of Chuuk and Yap',offset:'UTC+10'},
+	{region:'Micronesia: UTC+11 — the states of Kosrae and Pohnpei',offset:'UTC+11'},
+	{region:'Mongolia: UTC+07 — the provinces of Khovd, Uvs and Bayan-Ölgii',offset:'UTC+07'},
+	{region:'Mongolia: UTC+08 — most of the country',offset:'UTC+08'},
+	{region:'Netherlands: UTC-04 (AST) — countries of Aruba and the former Netherlands Antilles',offset:'UTC-04'},
+	{region:'Netherlands: UTC+01 (CET) — country of the Netherlands',offset:'UTC+01'},
+	{region:'Portugal: UTC-01 — Azores',offset:'UTC-01'},
+	{region:'Portugal: UTC (WET) — Madeira and the main territory of Portugal',offset:'UTC+00'},
+	{region:'Spain: UTC (WET) — Canary Islands',offset:'UTC+00'},
+	{region:'Spain: UTC+01 (CET) — main territory of Spain',offset:'UTC+01'},
+	{region:'Afghanistan UTC+04:30',offset:'UTC+04:30'},
+	{region:'Albania UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Algeria UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Andorra UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Angola UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Antigua and Barbuda UTC-04 (AST)',offset:'UTC-04'},
+	{region:'Argentina UTC-03 (ART)',offset:'UTC-03'},
+	{region:'Armenia UTC+04',offset:'UTC+04'},
+	{region:'Austria UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Azerbaijan UTC+04',offset:'UTC+04'},
+	{region:'Bahamas UTC-05 (EST)',offset:'UTC-05'},
+	{region:'Bahrain UTC+03',offset:'UTC+03'},
+	{region:'Bangladesh UTC+06 (BDT)',offset:'UTC+06'},
+	{region:'Barbados UTC-04',offset:'UTC-04'},
+	{region:'Belarus UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Belgium UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Belize UTC-06',offset:'UTC-06'},
+	{region:'Benin UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Bhutan UTC+06 (BTT)',offset:'UTC+06'},
+	{region:'Bolivia UTC-04',offset:'UTC-04'},
+	{region:'Bosnia and Herzegovina UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Botswana UTC+02 (CAT)',offset:'UTC+02'},
+	{region:'Brunei UTC+08',offset:'UTC+08'},
+	{region:'Bulgaria UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Burkina Faso UTC (GMT)',offset:'UTC+00'},
+	{region:'Burundi UTC+02 (CAT)',offset:'UTC+02'},
+	{region:'Cambodia UTC+07',offset:'UTC+07'},
+	{region:'Cameroon UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Cape Verde UTC-01 (Cape Verde Time)',offset:'UTC-01'},
+	{region:'Central African Republic UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Chad UTC-01 (Cape Verde Time)',offset:'UTC-01'},
+	{region:'China UTC+08 (Chinese Standard Time)',offset:'UTC+08'},
+	{region:'Colombia UTC-05',offset:'UTC-05'},
+	{region:'Comoros UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Republic of the Congo UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Costa Rica UTC-06',offset:'UTC-06'},
+	{region:"Côte d'Ivoire UTC (GMT)",offset:'UTC+00'},
+	{region:'Croatia UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Cuba UTC-05',offset:'UTC-05'},
+	{region:'Cyprus UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Czech Republic UTC+01 (CET) (CRT)',offset:'UTC+01'},
+	{region:'Djibouti UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Dominica UTC-04',offset:'UTC-04'},
+	{region:'Dominican Republic UTC-04',offset:'UTC-04'},
+	{region:'East Timor UTC+09',offset:'UTC+09'},
+	{region:'Egypt UTC+02 (EET)',offset:'UTC+02'},
+	{region:'El Salvador UTC-06',offset:'UTC-06'},
+	{region:'Equatorial Guinea UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Eritrea UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Estonia UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Ethiopia UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Fiji UTC+12',offset:'UTC+12'},
+	{region:'Finland UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Gabon UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Gambia UTC (GMT)',offset:'UTC+00'},
+	{region:'Georgia UTC+04',offset:'UTC+04'},
+	{region:'Germany UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Ghana UTC (GMT)',offset:'UTC+00'},
+	{region:'Greece UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Grenada UTC-04',offset:'UTC-04'},
+	{region:'Guatemala UTC-06',offset:'UTC-06'},
+	{region:'Guinea UTC (GMT)',offset:'UTC+00'},
+	{region:'Guinea-Bissau UTC (GMT)',offset:'UTC+00'},
+	{region:'Guyana UTC-04',offset:'UTC-04'},
+	{region:'Haiti UTC-05',offset:'UTC-05'},
+	{region:'Honduras UTC-06',offset:'UTC-06'},
+	{region:'Hong Kong UTC+08 (HKT)',offset:'UTC+08'},
+	{region:'Hungary UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Iceland UTC (GMT)',offset:'UTC+00'},
+	{region:'India UTC+05:30 (IST)',offset:'UTC+05:30'},
+	{region:'Iran UTC+03:30 (IRST)',offset:'UTC+03:30'},
+	{region:'Iraq UTC+03',offset:'UTC+03'},
+	{region:'Ireland UTC (WET)',offset:'UTC+00'},
+	{region:'Israel UTC+02 (IST)',offset:'UTC+02'},
+	{region:'Italy UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Jamaica UTC-05',offset:'UTC-05'},
+	{region:'Japan UTC+09 (JST)',offset:'UTC+09'},
+	{region:'Jordan UTC+02',offset:'UTC+02'},
+	{region:'Kenya UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'North Korea UTC+09 (Korea Standard Time)',offset:'UTC+09'},
+	{region:'South Korea UTC+09 (Korea Standard Time)',offset:'UTC+09'},
+	{region:'Kosovo UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Kuwait UTC+03 (Arabia Standard Time)',offset:'UTC+03'},
+	{region:'Kyrgyzstan UTC+06',offset:'UTC+06'},
+	{region:'Laos UTC+07',offset:'UTC+06'},
+	{region:'Latvia UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Lebanon UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Lesotho UTC+02',offset:'UTC+02'},
+	{region:'Liberia UTC (GMT)',offset:'UTC+00'},
+	{region:'Libya UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Liechtenstein UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Lithuania UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Luxembourg UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Macau UTC+08 (Macau Standard Time)',offset:'UTC+08'},
+	{region:'Republic of Macedonia Republic of Macedonia UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Madagascar UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Malawi UTC+02 (CAT)',offset:'UTC+02'},
+	{region:'Malaysia UTC+08 (Malaysian Standard Time)',offset:'UTC+08'},
+	{region:'Maldives UTC+05',offset:'UTC+05'},
+	{region:'Mali UTC (GMT)',offset:'UTC+00'},
+	{region:'Malta UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Marshall Islands UTC+12',offset:'UTC+12'},
+	{region:'Mauritania UTC (GMT)',offset:'UTC+00'},
+	{region:'Mauritius UTC+04 (Mauritius Time)',offset:'UTC+04'},
+	{region:'Moldova UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Monaco UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Montenegro UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Morocco UTC (WET)',offset:'UTC+00'},
+	{region:'Mozambique UTC+02 (CAT)',offset:'UTC+02'},
+	{region:'Myanmar UTC+06:30 (MST)',offset:'UTC+06:30'},
+	{region:'Namibia UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Nauru UTC+12',offset:'UTC+12'},
+	{region:'Nepal UTC+05:45 (Nepal Time)',offset:'UTC+05:45'},
+	{region:'Nicaragua UTC-06',offset:'UTC-06'},
+	{region:'Niger UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Nigeria UTC+01 (WAT)',offset:'UTC+01'},
+	{region:'Norway UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Oman UTC+04',offset:'UTC+04'},
+	{region:'Pakistan UTC+05 (PST)',offset:'UTC+05'},
+	{region:'Palau UTC+09',offset:'UTC+09'},
+	{region:'Panama UTC-05',offset:'UTC-05'},
+	{region:'Papua New Guinea UTC+10',offset:'UTC+10'},
+	{region:'Paraguay UTC-04',offset:'UTC-04'},
+	{region:'Peru UTC-05 (PET)',offset:'UTC-05'},
+	{region:'Philippines UTC+08 (PHT)',offset:'UTC+08'},
+	{region:'Poland UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Qatar UTC+03 (Arabia Standard Time)',offset:'UTC+03'},
+	{region:'Romania UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Rwanda UTC+02 (CAT)',offset:'UTC+02'},
+	{region:'Saint Kitts and Nevis UTC-04',offset:'UTC-04'},
+	{region:'Saint Lucia UTC-04',offset:'UTC-04'},
+	{region:'Saint Vincent and the Grenadines UTC-04',offset:'UTC-04'},
+	{region:'Samoa UTC-11',offset:'UTC-11'},
+	{region:'San Marino UTC+01 (CET)',offset:'UTC+01'},
+	{region:'São Tomé and Príncipe UTC (GMT)',offset:'UTC+00'},
+	{region:'Saudi Arabia UTC+03 (Arabia Standard Time)',offset:'UTC+03'},
+	{region:'Senegal UTC (GMT)',offset:'UTC+00'},
+	{region:'Serbia UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Seychelles UTC+04 (Seychelles Time)',offset:'UTC+04'},
+	{region:'Sierra Leone UTC (GMT)',offset:'UTC+00'},
+	{region:'Singapore UTC+08 (SST)',offset:'UTC+08'},
+	{region:'Slovakia UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Slovenia UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Solomon Islands UTC+11',offset:'UTC+11'},
+	{region:'Somalia UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'South Africa UTC+02 (South African Standard Time)',offset:'UTC+02'},
+	{region:'Sri Lanka UTC+05:30 (SLT)',offset:'UTC+05:30'},
+	{region:'Sudan UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Suriname UTC-03',offset:'UTC-03'},
+	{region:'Swaziland UTC+02',offset:'UTC+02'},
+	{region:'Sweden UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Switzerland UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Syria UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Tajikistan UTC+05',offset:'UTC+05'},
+	{region:'Tanzania UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Thailand UTC+07 (THA)',offset:'UTC+07'},
+	{region:'Togo UTC (GMT)',offset:'UTC+00'},
+	{region:'Tonga UTC+13',offset:'UTC+13'},
+	{region:'Trinidad and Tobago UTC-04',offset:'UTC-04'},
+	{region:'Tunisia UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Turkey UTC+02 (EET)',offset:'UTC+02'},
+	{region:'Turkmenistan UTC+05',offset:'UTC+05'},
+	{region:'Tuvalu UTC+12',offset:'UTC+12'},
+	{region:'Uganda UTC+03 (EAT)',offset:'UTC+03'},
+	{region:'Ukraine UTC+02 (EET)',offset:'UTC+02'},
+	{region:'United Arab Emirates UTC+04',offset:'UTC+04'},
+	{region:'Uruguay UTC-03',offset:'UTC-03'},
+	{region:'Uzbekistan UTC+05 (Uzbekistan Time)',offset:'UTC+05'},
+	{region:'Vanuatu UTC+11',offset:'UTC+11'},
+	{region:'Vatican City UTC+01 (CET)',offset:'UTC+01'},
+	{region:'Venezuela UTC-04:30',offset:'UTC+04:30'},
+	{region:'Vietnam UTC+07 (Indochina Time)',offset:'UTC+07'},
+	{region:'Yemen UTC+03',offset:'UTC+03'},
+	{region:'Zambia UTC+02 (CAT)',offset:'UTC+02'},
+	{region:'Zimbabwe UTC+02 (CAT)',offset:'UTC+02'}
+];
+
+add_time_zone_by_index = function(index){
+	var tz = all_time_zones[index];
+	if( typeof(tz) != 'undefined' ){
+		if( $.inArray(index,time_zones) == -1 ){
+			var offset = tz.offset;
+			var region = tz.region;
+			time_zones.push(index);
+			createCookie('time_zones',time_zones,7);
+			add_time_zone(region,offset);
+		}
+	}
+}
 
 add_time_zone = function(region,offset){
-	$('#times_there').append( '<tr><td class="offset">'+offset+'</td><td class="region">'+region+'</td><td class="time">&nbsp;</td></tr>');
-};
-
-prep_time_zones = function(){
-	$.each(out_time_zones,function(index,tz){
-		add_time_zone(tz['region'], tz['offset']);
-	});
+	$('#times_there').append( '<tr><td class="offset">'+offset+'</td>' +
+		'<td class="region">'+region+'</td>' +
+		'<td class="time">&nbsp;</td>' +
+//		'<td class="delete">Delete(coming soon)</td>' +
+		'</tr>');
 };
 
 update_time_zones = function(){
@@ -339,8 +378,13 @@ update_time_zones = function(){
 		var nd = new Date(utc + (3600000 * offset));
 		var day_diff = ['Yesterday','Today','Tomorrow'][d.getDay() - nd.getDay() + 1 ];
 		var hour = nd.getHours();
+		var meri = ' AM';
+		if( hour > 12 ){
+			hour -= 12;
+			meri = ' PM';
+		}
 		$(this).find('td.time').html( 
-			day_diff + ' - ' + hour +':'+ pad(nd.getMinutes(),2) );
+			day_diff + ' - ' + hour +':'+ pad(nd.getMinutes(),2) + meri );
 // http://www.quackit.com/javascript/javascript_date_and_time_functions.cfm
 // http://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/6016329
 	});
@@ -349,7 +393,7 @@ update_time_zones = function(){
 function pad(number, length) {
 	var str = '' + number;
 	while (str.length < length) {
-	str = '0' + str;
+		str = '0' + str;
 	}
 	return str;
 }
@@ -359,27 +403,28 @@ $(function(){
 	$.each(hours,function(index,hour){
 		$('#time_here #hour').append('<option>'+hour+'</option>');
 	});
-//	$.each(days,function(index,day){
-//		$('#time_here #day').append('<option>'+day+'</option>');
-//	});
-//	prep_time_zones();
 	$('#hour').change(function(){update_time_zones();});
 	$('#meridiem').change(function(){update_time_zones();});
 	$('#add').click(function(){
-// $('#time_zone option:selected').text() yields the user visible text
-// $('#time_zone').val() yields the selected option's 'value'
+		// $('#time_zone option:selected').text() yields the user visible text
+		// $('#time_zone').val() yields the selected option's 'value'
 		if( $('#time_zone').val() != ''){
-		add_time_zone($('#time_zone option:selected').text(),$('#time_zone').val());
+			//add_time_zone($('#time_zone option:selected').text(),$('#time_zone').val());
+			add_time_zone_by_index($('#time_zone').attr('selectedIndex') - 1);
 		};
 	});
-	add_time_zone('the states on the Pacific coast plus Nevada','UTC-08');
-	add_time_zone('Afghanistan','UTC+04:30');
-	add_time_zone('France: French Polynesia UTC-10','UTC-10');
-	add_time_zone('France: Marquesas Islands UTC-09:30','UTC-09:30');
+	
 	$.each(all_time_zones,function(index,time_zone){
 		$('#add_time_zone #time_zone').append(
 			'<option value="'+time_zone['offset']+'">'+time_zone['region']+'</option>');
 	});
+
+	var time_zones_cookie = readCookie('time_zones');
+	if( time_zones_cookie != null ) {
+		$.each(time_zones_cookie.split(','),function(index,time_zone){
+			add_time_zone_by_index(time_zone);
+		});
+	}
 });
 </script>
 </head>
@@ -395,7 +440,9 @@ $(function(){
 <option value='0'>AM</option>
 <option value='1'>PM</option>
 </select><!-- id='meridiem' -->
+<!--
 <select id='day'></select>
+-->
 </div><!-- id='time_here' -->
 <table id='times_there'></table>
 
