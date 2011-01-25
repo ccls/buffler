@@ -7,11 +7,19 @@
 <title>UCB SPH CCLS</title>
 <link href="/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/stylesheets/scaffold.css" media="screen" rel="stylesheet" type="text/css" />
-
+<style type="text/css">
+tr.bad {
+	background-color: #F88;
+}
+tr.good {
+	background-color: #8F8;
+}
+</style>
 <script src="/javascripts/jquery.js" type="text/javascript"></script>
 <script src="/javascripts/jquery-ui.js" type="text/javascript"></script>
 <script src="/javascripts/jrails.js" type="text/javascript"></script>
 <script type="text/javascript">
+//<![CDATA[
 //http://www.quirksmode.org/js/cookies.html
 function createCookie(name,value,days) {
 	if (days) {
@@ -344,17 +352,29 @@ add_time_zone_by_index = function(index){
 			var region = tz.region;
 			time_zones.push(index);
 			createCookie('time_zones',time_zones,7);
-			add_time_zone(region,offset);
+			add_time_zone(index,region,offset);
 		}
 	}
 }
 
-add_time_zone = function(region,offset){
-	$('#times_there').append( '<tr><td class="offset">'+offset+'</td>' +
+add_time_zone = function(index,region,offset){
+	$('#times_there').append( '<tr id='+index+'><td class="offset">'+offset+'</td>' +
 		'<td class="region">'+region+'</td>' +
 		'<td class="time">&nbsp;</td>' +
-//		'<td class="delete">Delete(coming soon)</td>' +
+		'<td class="delete">Delete</td>' +
 		'</tr>');
+	$('#times_there tr#'+index+' td.delete').click(function(){
+		remove_time_zone($(this).parent('tr').attr('id'));
+	});
+};
+
+remove_time_zone = function(index){
+	$('tr#'+index).remove();
+	index_of_index = $.inArray(index,time_zones);
+	if( index_of_index != -1 ){
+		time_zones.splice($.inArray(index,time_zones),1);
+		createCookie('time_zones',time_zones,7);
+	}
 };
 
 update_time_zones = function(){
@@ -367,6 +387,7 @@ update_time_zones = function(){
 		// UTC-04:30
 		var offsets = $(this).find('td.offset').text().replace(/^UTC/,'').split(':');
 		//	['-04','30']
+		//	MUST use radix 10 as the strings contain leading 0's
 		var offset = parseInt(offsets[0],10);
 		if( parseInt(offsets[1],10) > 0 ){
 			if( offset >= 0 ){
@@ -378,6 +399,14 @@ update_time_zones = function(){
 		var nd = new Date(utc + (3600000 * offset));
 		var day_diff = ['Yesterday','Today','Tomorrow'][d.getDay() - nd.getDay() + 1 ];
 		var hour = nd.getHours();
+		if( hour > 20 || hour < 6 ) {
+
+				$(this).removeClass('good');
+				$(this).addClass('bad');
+		} else {
+				$(this).addClass('good');
+				$(this).removeClass('bad');
+		}
 		var meri = ' AM';
 		if( hour > 12 ){
 			hour -= 12;
@@ -426,6 +455,7 @@ $(function(){
 		});
 	}
 });
+//]]>
 </script>
 </head>
 <body>
