@@ -11,7 +11,8 @@ module ApplicationHelper
 		width = ( 900 - count ) / count
 		s = "<div id='rootmenu' class='main_width'>\n"
 		roots.each do |page|
-			s << link_to( "&nbsp;",	#page.menu(session[:locale]), 
+#			s << link_to( "&nbsp;",	#page.menu(session[:locale]), 
+			s << link_to( page.menu(session[:locale]), 
 				ActionController::Base.relative_url_root.to_s + page.path,
 				:id => "menu_#{dom_id(page)}",
 				:style => "width: #{width}px",
