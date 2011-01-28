@@ -4,6 +4,7 @@ class HomePagePicsController < ApplicationController
 
 	skip_before_filter :login_required, :only => :random
 	skip_before_filter :build_menu_js, :only => :random
+	ssl_allowed :random
 
 	before_filter :may_edit_required, :only => :activate
 
