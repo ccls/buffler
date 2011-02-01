@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-	before_filter :build_menu_js
+#	before_filter :build_menu_js
 
 	helper :all # include all helpers, all the time
 
@@ -24,26 +24,27 @@ protected	#	private #	(does it matter which or if neither?)
 		})
 	end
 
-
-	#	The menu is on every page and this seems as the
-	#	only way for me to force it into the application
-	#	layout.
-	def build_menu_js
-		js = "" <<
-			"if ( typeof(translatables) == 'undefined' ){\n" <<
-			"	var translatables = [];\n" <<
-			"}\n"
-		Page.roots.each do |page|
-			js << "" <<
-				"tmp={tag:'#menu_#{dom_id(page)}',locales:{}};\n"
-			%w( en es ).each do |locale|
-				js << "tmp.locales['#{locale}']='#{page.menu(locale)}'\n"
-			end
-			js << "translatables.push(tmp);\n"
-		end
-		@template.content_for :head do
-			@template.javascript_tag js
-		end
-	end
+#	No longer doing js menu for locales and translations
+#
+#	#	The menu is on every page and this seems as the
+#	#	only way for me to force it into the application
+#	#	layout.
+#	def build_menu_js
+#		js = "" <<
+#			"if ( typeof(translatables) == 'undefined' ){\n" <<
+#			"	var translatables = [];\n" <<
+#			"}\n"
+#		Page.roots.each do |page|
+#			js << "" <<
+#				"tmp={tag:'#menu_#{dom_id(page)}',locales:{}};\n"
+#			%w( en es ).each do |locale|
+#				js << "tmp.locales['#{locale}']='#{page.menu(locale)}'\n"
+#			end
+#			js << "translatables.push(tmp);\n"
+#		end
+#		@template.content_for :head do
+#			@template.javascript_tag js
+#		end
+#	end
 
 end
