@@ -3,7 +3,8 @@ class HomePagePicsController < ApplicationController
 	resourceful
 
 	skip_before_filter :login_required, :only => :random
-	skip_before_filter :build_menu_js, :only => :random
+#	removed method
+#	skip_before_filter :build_menu_js, :only => :random
 	ssl_allowed :random
 
 	before_filter :may_edit_required, :only => :activate
