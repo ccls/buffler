@@ -8,12 +8,17 @@ namespace :app do
 		ENV['FIXTURES'] = fixtures.join(',')
 		puts "Loading fixtures for #{ENV['FIXTURES']}"
 		Rake::Task["db:fixtures:load"].invoke
-		Rake::Task["app:add_users"].invoke
-		ENV['uid'] = '859908'
-		Rake::Task["app:deputize"].invoke
-		ENV['uid'] = '228181'
-		Rake::Task["app:deputize"].reenable	#	<- this is stupid!
-		Rake::Task["app:deputize"].invoke
+
+#
+#	was going to use ccls engines namespace,
+#	by buffler no longer uses ccls_engine
+#
+#		Rake::Task["ccls:add_users"].invoke
+#		ENV['uid'] = '859908'
+#		Rake::Task["ccls:deputize"].invoke
+#		ENV['uid'] = '228181'
+#		Rake::Task["ccls:deputize"].reenable	#	<- this is stupid!
+#		Rake::Task["ccls:deputize"].invoke
 
 #mountain_stream.jpg
 
