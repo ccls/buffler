@@ -47,7 +47,7 @@ Rails::Initializer.run do |config|
 	config.gem 'jakewendt-simply_helpful'
 	config.gem 'jakewendt-ruby_extension'
 	config.gem 'jakewendt-rails_extension'
-	config.gem 'jakewendt-simply_authorized'
+#	config.gem 'jakewendt-simply_authorized'
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
 	config.gem 'gravatar'
