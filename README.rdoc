@@ -23,8 +23,7 @@ UC Berkeley, School of Public Health, California Childhood Leukemia Study
 == Required Gems
 
 * {RedCloth}[http://redcloth.org] - textile parser.
-* {chronic}[http://chronic.rubyforge.org] - natural language Date/Time parser. (also required for BackgrounDRb)
-* {packet}[http://packet.rubyforge.org] - requirement for BackgrounDRb
+* {chronic}[http://chronic.rubyforge.org] - natural language Date/Time parser.
 * {acts_as_list}[http://github.com/ryanb/acts-as-list] - for maintaining order in all things listable
 * {rcov}[http://github.com/relevance/rcov] - testing
 * {mocha}[http://github.com/floehopper/mocha] - testing
@@ -51,7 +50,6 @@ UC Berkeley, School of Public Health, California Childhood Leukemia Study
 
 * {html_test}[http://github.com/peter/html_test] - html testing and validation
 * {html_test_extension}[http://github.com/jakewendt/html_test_extension] - html testing and validation
-* {backgroundrb}[http://github.com/gnufied/backgroundrb] - background job server and scheduler (includes minor mods to init.rb)
 * {rdoc_rails}[http://github.com/jakewendt/rdoc_rails] - simple plugin to add ActiveRecord associations to rdoc
 
 
@@ -125,10 +123,9 @@ Everybody join hands together now to install some gems ...
  sudo gem install rdoc -v '~> 2'
  sudo gem install rails -v '~> 2'
  #
- # packet is for backgroundrb
  # can't rememeber what haml was for (HomeX and Surveyor)
  # others will load correctly now
- # sudo gem install packet haml 
+ # sudo gem install haml 
  # sudo gem install paperclip rubycas-client ssl_requirement
  #
  # The rest should actually install with ...
@@ -164,7 +161,6 @@ then we continue ...
  rake app:setup
 
  script/server
- script/backgroundrb start
 
  #	login to your app
  #	The first administrator/deputy must be created via the command line.
