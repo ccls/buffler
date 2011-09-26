@@ -43,7 +43,8 @@ Rails::Initializer.run do |config|
 	config.gem 'ccls-calnet_authenticated'
 	config.gem 'jakewendt-simply_authorized'
 	config.gem 'jakewendt-simply_pages'
-	config.gem 'jakewendt-simply_photos'
+#	imported functionality
+#	config.gem 'jakewendt-simply_photos'
 	config.gem 'jakewendt-simply_helpful'
 	config.gem 'jakewendt-ruby_extension'
 	config.gem 'jakewendt-rails_extension'

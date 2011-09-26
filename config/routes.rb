@@ -4,6 +4,8 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resource  :calendar,   :only => [ :show ]
 
+	map.resources :photos
+
 	map.resources :home_page_pics, :collection => { 
 		:random => :get,
 		:activate => :post }
