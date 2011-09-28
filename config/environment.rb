@@ -33,14 +33,18 @@ Rails::Initializer.run do |config|
 	#	due to some enhancements, the db gems MUST come first
 	#	for use in the jruby environment.
 	config.gem 'ccls-calnet_authenticated'
-	config.gem 'jakewendt-simply_authorized'
-	config.gem 'jakewendt-simply_pages'
-	config.gem 'jakewendt-simply_helpful'
-	config.gem 'jakewendt-ruby_extension'
-	config.gem 'jakewendt-rails_extension'
+
+	#	Without this, rake doesn't properly include that app/ paths?
+#	config.gem 'ccls-common_lib'
+
+	config.gem 'jakewendt-simply_authorized'		#	TODO remove me
+	config.gem 'jakewendt-simply_pages'		#	TODO remove me
+	config.gem 'jakewendt-simply_helpful'		#	TODO remove me
+	config.gem 'jakewendt-ruby_extension'		#	TODO remove me
+	config.gem 'jakewendt-rails_extension'		#	TODO remove me
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
-	config.gem 'gravatar'
+	config.gem 'gravatar'		#	TODO remove me
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
 	config.gem 'paperclip'
 	config.gem 'ucb_ldap', '>= 1.4.2'
@@ -48,7 +52,7 @@ Rails::Initializer.run do |config|
 	config.gem 'RedCloth', '> 4.2.6'
 
 	#	require it, but don't load it
-	config.gem 'jakewendt-rdoc_rails', :lib => false
+	config.gem 'jakewendt-rdoc_rails', :lib => false		#	TODO remove me
 
 	#		http://chronic.rubyforge.org/
 	config.gem "chronic"	#, :version => '= 0.5.0'
