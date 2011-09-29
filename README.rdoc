@@ -30,18 +30,16 @@ UC Berkeley, School of Public Health, California Childhood Leukemia Study
 * {autotest-rails}[http://rubyforge.org/projects/zentest] - testing
 * {ZenTest}[http://www.zenspider.com/ZSS/Products/ZenTest/] - testing
 * {thoughtbot-factory_girl}[http://github.com/thoughtbot/factory_girl] - testing
-* {gravatar}[http://rubygems.org/gems/gravatar] - for user icons
 * {will_paginate}[http://github.com/mislav/will_paginate] - for object pagination
 * {rubycas-client}[http://code.google.com/p/rubycas-client/] - user authentication
 * {ucb_ldap}[http://ucbrb.rubyforge.org/ucb_ldap/] - user info
 * {ssl_requirement}[http://github.com/rails/ssl_requirement] - for managing https pages
 * {jakewendt-ruby_extension}[http://github.com/jakewendt/ruby_extension] - modifications, updates and patches for ruby.
 * {ccls-ccls_engine}[http://github.com/ccls/ucb_ccls_engine] - contains all of the user authentication and other code used in several apps
-* {jakewendt-simply_pages}[http://github.com/jakewendt/simply_pages]
 * {jakewendt-simply_documents}[http://github.com/jakewendt/simply_documents]
 * {jakewendt-simply_helpful}[http://github.com/jakewendt/simply_helpful]
 * {jakewendt-rails_extension}[http://github.com/jakewendt/rails_extension]
-* {jrails}[http://github.com/aaronchi/jrails] (pending) - jquery helper methods (trying to not have any inline javascript so may never really use jrails' methods.)
+* {jrails}[http://github.com/aaronchi/jrails] - jquery helper methods
 * {Paperclip}[http://github.com/thoughtbot/paperclip] - for managing attachments and images
 
 
@@ -262,8 +260,6 @@ I've made some mods in {html_test_extension}[http://github.com/jakewendt/html_te
 == Credit / Special Thanks
 
 Gradient images made with {Gradient Image Maker}[http://tools.dynamicdrive.com/gradient/]
-
-User icons from {Gravatar}[http://gravatar.com]
 
 {Demo on css rounded corners}[http://css-radius.heroku.com]
 

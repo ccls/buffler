@@ -1,5 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
 
+	map.resources :pages, :collection => { 
+		:all => :get,
+		:translate => :get,
+		:order => :post }
+
 	map.root :controller => "pages", :action => "show", :path => [""]
 
 	map.resource  :calendar,   :only => [ :show ]

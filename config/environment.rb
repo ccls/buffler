@@ -38,13 +38,13 @@ Rails::Initializer.run do |config|
 #	config.gem 'ccls-common_lib'
 
 	config.gem 'jakewendt-simply_authorized'		#	TODO remove me
-	config.gem 'jakewendt-simply_pages'		#	TODO remove me
+#	config.gem 'jakewendt-simply_pages'		#	TODO remove me
 	config.gem 'jakewendt-simply_helpful'		#	TODO remove me
 	config.gem 'jakewendt-ruby_extension'		#	TODO remove me
 	config.gem 'jakewendt-rails_extension'		#	TODO remove me
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
-	config.gem 'gravatar'		#	TODO remove me
+#	config.gem 'gravatar'		#	TODO remove me
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
 	config.gem 'paperclip'
 	config.gem 'ucb_ldap', '>= 1.4.2'
