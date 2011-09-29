@@ -50,7 +50,7 @@ Rails::Initializer.run do |config|
 	config.gem 'RedCloth', '> 4.2.6'
 
 	#	require it, but don't load it
-	config.gem 'jakewendt-rdoc_rails', :lib => false		#	TODO remove me
+#	config.gem 'jakewendt-rdoc_rails', :lib => false		#	TODO remove me
 
 	#		http://chronic.rubyforge.org/
 	config.gem "chronic"	#, :version => '= 0.5.0'
