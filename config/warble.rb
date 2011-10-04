@@ -1,8 +1,8 @@
 # Disable automatic framework detection by uncommenting/setting to false
 # Warbler.framework_detection = false
 
-gem 'ccls-ccls_engine'
-require 'ccls_engine/warble'
+#gem 'ccls-ccls_engine'
+#require 'ccls_engine/warble'
 
 # Warbler web application assembly configuration file
 Warbler::Config.new do |config|
