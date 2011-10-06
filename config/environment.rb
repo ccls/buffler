@@ -34,9 +34,6 @@ Rails::Initializer.run do |config|
 	#	for use in the jruby environment.
 	config.gem 'ccls-calnet_authenticated'
 
-	#	Without this, rake doesn't properly include that app/ paths?
-#	config.gem 'ccls-common_lib'
-
 	config.gem 'jakewendt-simply_authorized'		#	TODO remove me
 	config.gem 'jakewendt-simply_helpful'		#	TODO remove me
 	config.gem 'jakewendt-ruby_extension'		#	TODO remove me
@@ -48,9 +45,6 @@ Rails::Initializer.run do |config|
 	config.gem 'ucb_ldap', '>= 1.4.2'
 	config.gem 'rubycas-client', '>= 2.2.1'
 	config.gem 'RedCloth', '> 4.2.6'
-
-	#	require it, but don't load it
-#	config.gem 'jakewendt-rdoc_rails', :lib => false		#	TODO remove me
 
 	#		http://chronic.rubyforge.org/
 	config.gem "chronic"	#, :version => '= 0.5.0'
