@@ -41,7 +41,11 @@ Rails::Initializer.run do |config|
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
-	config.gem 'paperclip'
+	
+	#	2.4.3 causes a lot of ...
+	#	NameError: `@[]' is not allowed as an instance variable name
+	config.gem 'paperclip', '=2.4.2'
+
 	config.gem 'ucb_ldap', '>= 1.4.2'
 	config.gem 'rubycas-client', '>= 2.2.1'
 	config.gem 'RedCloth', '> 4.2.6'
