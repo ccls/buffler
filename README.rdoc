@@ -34,10 +34,10 @@ UC Berkeley, School of Public Health, California Childhood Leukemia Study
 * {rubycas-client}[http://code.google.com/p/rubycas-client/] - user authentication
 * {ucb_ldap}[http://ucbrb.rubyforge.org/ucb_ldap/] - user info
 * {ssl_requirement}[http://github.com/rails/ssl_requirement] - for managing https pages
-* {jakewendt-ruby_extension}[http://github.com/jakewendt/ruby_extension] - modifications, updates and patches for ruby.
+* {ccls-ruby_extension}[http://github.com/ccls/ruby_extension] - modifications, updates and patches for ruby.
 * {ccls-ccls_engine}[http://github.com/ccls/ucb_ccls_engine] - contains all of the user authentication and other code used in several apps
-* {jakewendt-simply_helpful}[http://github.com/jakewendt/simply_helpful]
-* {jakewendt-rails_extension}[http://github.com/jakewendt/rails_extension]
+* {ccls-simply_helpful}[http://github.com/ccls/simply_helpful]
+* {ccls-rails_extension}[http://github.com/ccls/rails_extension]
 * {jrails}[http://github.com/aaronchi/jrails] - jquery helper methods
 * {Paperclip}[http://github.com/thoughtbot/paperclip] - for managing attachments and images
 
