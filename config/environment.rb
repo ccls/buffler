@@ -34,10 +34,10 @@ Rails::Initializer.run do |config|
 	#	for use in the jruby environment.
 	config.gem 'ccls-calnet_authenticated'
 
-	config.gem 'jakewendt-simply_authorized'		#	TODO remove me
-	config.gem 'jakewendt-simply_helpful'		#	TODO remove me
-	config.gem 'jakewendt-ruby_extension'		#	TODO remove me
-	config.gem 'jakewendt-rails_extension'		#	TODO remove me
+	config.gem 'ccls-simply_authorized'
+	config.gem 'ccls-simply_helpful'
+	config.gem 'ccls-ruby_extension'
+	config.gem 'ccls-rails_extension'
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
