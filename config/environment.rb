@@ -35,9 +35,10 @@ Rails::Initializer.run do |config|
 	config.gem 'ccls-calnet_authenticated'
 
 	config.gem 'ccls-simply_authorized'
-	config.gem 'ccls-simply_helpful'
-	config.gem 'ccls-ruby_extension'
-	config.gem 'ccls-rails_extension'
+#	config.gem 'ccls-simply_helpful'
+	config.gem 'ccls-common_lib'
+#	config.gem 'ccls-ruby_extension'
+#	config.gem 'ccls-rails_extension'
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
