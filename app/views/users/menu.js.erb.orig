@@ -1,0 +1,8 @@
+<% if logged_in? %>
+jQuery(function(){
+user_links = [ '',
+'<%=link_to( "My Account", user_path(current_user) ) %>',
+'<%= link_to( "Logout", logout_path ) %>']
+jQuery('#user_links').replaceWith(user_links.join('&nbsp;|&nbsp;'));
+});
+<% end -%>
