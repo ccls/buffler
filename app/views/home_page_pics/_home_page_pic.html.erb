@@ -7,8 +7,10 @@
 </div>
 <%= active_check_box(home_page_pic) %>
 <div class='manage'>
-<%= link_to 'Edit', edit_home_page_pic_path(home_page_pic) %>&nbsp;
-<%= link_to 'Destroy', home_page_pic, 
-	:confirm => 'Are you sure?', :method => :delete %>
+<%= link_to( 'Edit', edit_home_page_pic_path(home_page_pic),
+	:class => 'button' ) %>&nbsp;
+<%# NOTE this is already inside a form so cannot use destroy_link_to here %>
+<%= link_to 'Destroy', home_page_pic, :class => 'button',
+	:confirm => "Destroy home_page_pic '#{home_page_pic}'?", :method => :delete %>
 </div>
 <% end %><!-- class='home_page_pic row' -->

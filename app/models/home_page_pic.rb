@@ -29,6 +29,12 @@ class HomePagePic < ActiveRecord::Base
 		end
 	end
 
+
+
+	def to_s
+		title
+	end
+
 protected
 
 #	def self.adapter

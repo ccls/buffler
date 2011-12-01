@@ -6,6 +6,6 @@
   <%= render 'form', :f => f %>
   <p>
     <%= f.submit( "Create Photo" )%>&nbsp;
-    <%= button_link_to "Cancel", photos_path %>
+    <%= link_to( "Cancel", photos_path, :class => 'button' ) %>
   </p>
 <% end %>
