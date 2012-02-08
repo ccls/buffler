@@ -3,8 +3,8 @@ require 'test_helper'
 class ApplicationHelperTest < ActionView::TestCase
 
   def setup
+		#	required for manipulation of session used by locales
     @request  = ActionController::TestRequest.new
-#    @response = ActionController::TestResponse.new
   end
 
 	test "should respond_to application_root_menu" do

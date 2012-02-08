@@ -2,14 +2,12 @@ require 'test_helper'
 
 class CalendarsControllerTest < ActionController::TestCase
 
-	assert_access_with_login       :show, { 
-		:skip_show_failure => true,
-		:logins => [:superuser,:admin,:editor,:interviewer,:reader] }
-	assert_no_access_with_login    :show, { 
-		:logins => [:active_user] }
-	assert_no_access_without_login :show
+	ASSERT_ACCESS_OPTIONS = { :actions => [:show] }
 
-	assert_access_with_https   :show
-	assert_no_access_with_http :show
+	assert_access_with_login({ :skip_show_failure => true, :logins => site_readers })
+	assert_no_access_with_login( :logins => non_site_readers )
+	assert_no_access_without_login 
+	assert_access_with_https 
+	assert_no_access_with_http
 
 end

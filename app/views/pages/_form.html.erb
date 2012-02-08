@@ -22,12 +22,15 @@
 
 <p><b>Title</b> (this is the text on the top of the browser)</p>
 English:<%= f.text_field :title_en %>
+Spanish:<%= f.text_field :title_es %>
 
 <p><b>Menu</b> (this is the text on the menu)</p>
 English:<%= f.text_field :menu_en %>
+Spanish:<%= f.text_field :menu_es %>
 
 <p><b>Body</b> (uses sanitized <%= link_to 'textile', 'http://redcloth.org', :target => 'new' %>)</p>
 English:<%= f.text_area :body_en, :rows => 30 %>
+Spanish:<%= f.text_area :body_es, :rows => 30 %>
 </div><!-- fields -->
 
 <p class='note'>

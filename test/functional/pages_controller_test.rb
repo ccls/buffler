@@ -20,19 +20,17 @@ class PagesControllerTest < ActionController::TestCase
 		show.assert_access_with_http
 		show.assert_access_with_https
 		show.assert_access_with_login({
-			:logins => [:superuser,:administrator,:editor,:interviewer,:reader,:active_user], 
+			:logins => all_test_roles,
 			:skip_show_failure => true })
 		show.assert_access_without_login
 	end
 
-	assert_access_with_login({ 
-		:logins => [:superuser,:administrator,:editor] })
-	assert_no_access_with_login({ 
-		:logins => [:interviewer,:reader,:active_user] })
+	assert_access_with_login({    :logins => site_editors })
+	assert_no_access_with_login({ :logins => non_site_editors })
 	assert_no_access_without_login
 	assert_no_access_with_http 
 
-	%w( superuser administrator editor ).each do |cu|
+	site_editors.each do |cu|
 	#
 	#		index/new/create/edit/update/destroy 
 	#			should only be visible to admins for editing
@@ -142,7 +140,7 @@ class PagesControllerTest < ActionController::TestCase
 
 	end
 
-	%w( interviewer reader active_user ).each do |cu|
+	non_site_editors.each do |cu|
 
 		test "should NOT order pages with #{cu} login" do
 			login_as send(cu)
