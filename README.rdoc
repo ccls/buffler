@@ -4,7 +4,6 @@ UC Berkeley, School of Public Health, California Childhood Leukemia Study
 
 == ToDo
 
-* Remove the translatability that we'll never use
 
 == Requirements
 

@@ -33,12 +33,8 @@ Rails::Initializer.run do |config|
 	#	due to some enhancements, the db gems MUST come first
 	#	for use in the jruby environment.
 	config.gem 'ccls-calnet_authenticated'
-
 	config.gem 'ccls-simply_authorized'
-#	config.gem 'ccls-simply_helpful'
 	config.gem 'ccls-common_lib'
-#	config.gem 'ccls-ruby_extension'
-#	config.gem 'ccls-rails_extension'
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
@@ -54,7 +50,7 @@ Rails::Initializer.run do |config|
 	#		http://chronic.rubyforge.org/
 	config.gem "chronic"	#, :version => '= 0.5.0'
 	config.gem 'will_paginate'
-	config.gem 'fastercsv'
+#	config.gem 'fastercsv'
 	config.gem "aws-s3", :lib => "aws/s3"
 
 	# config.plugins = [ :exception_notification, :ssl_requirement, :all ]
