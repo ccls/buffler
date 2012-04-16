@@ -2,6 +2,11 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+require 'calnet_authenticated_test_helper'
+require 'simply_authorized_factory_test_helper'
+require 'active_support_extension'
+require 'action_controller_extension'
+
 class ActiveSupport::TestCase
 	fixtures :all
 
@@ -21,4 +26,10 @@ end
 
 class ActionController::TestCase
 	setup :turn_https_on
+end
+
+
+
+def brand	#	for auto-generated tests
+	"@@ "
 end

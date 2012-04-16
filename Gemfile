@@ -47,11 +47,20 @@ gem "ryanb-acts-as-list"
 gem "ssl_requirement"
 gem "will_paginate", "~>2"
 
-gem "ccls-calnet_authenticated"
-gem "ccls-common_lib"
-gem "ccls-simply_authorized"
+#gem "ccls-calnet_authenticated"
+#gem "ccls-common_lib"
+#gem "ccls-simply_authorized"
 
-gem "warbler"
+
+#	1.3.5 causes all kinds of 
+#	gems-gems-......jar
+#	files to be put in /lib/ which for whatever reasons
+#	causes a lot of errors.
+#	As I see no need for any upgrade, don't.
+gem "warbler", '=1.3.2'
+
+
+
 #	jruby-jars-1.6.6 causes issues
 gem "jruby-jars", "=1.6.5"
 gem "jruby-openssl"
@@ -79,6 +88,21 @@ gem "paperclip", '=2.4.2'	#	only used by buffler and clic
 #	rarely used
 gem "rdoc", "~>2"
 gem "aws-s3"
+
+gem 'ucb_ldap', '>= 1.4.2'
+gem 'rubycas-client', '>= 2.2.1'
+
+
+
+group :test do
+	gem "ccls-html_test"
+	gem "mocha", :require => false
+	gem "autotest-rails", :require => 'autotest/rails'
+	gem 'ZenTest', '~>4.5.0'
+	gem "thoughtbot-factory_girl", :require => "factory_girl"
+end
+
+
 
 #
 #	Everything seems to work with this ...

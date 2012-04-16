@@ -45,4 +45,3 @@ public/development/
 db/test_*_schema.rb
 
 .bundle
-Gemfile.lock

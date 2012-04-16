@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class CalnetAuthenticated::SessionsControllerTest < ActionController::TestCase
-	tests SessionsController
+class SessionsControllerTest < ActionController::TestCase
+#	tests SessionsController
 
 	test "should logout if authenticated" do
 		login_as Factory(:user)

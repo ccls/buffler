@@ -32,9 +32,9 @@ Rails::Initializer.run do |config|
 
 	#	due to some enhancements, the db gems MUST come first
 	#	for use in the jruby environment.
-	config.gem 'ccls-calnet_authenticated'
-	config.gem 'ccls-simply_authorized'
-	config.gem 'ccls-common_lib'
+#	config.gem 'ccls-calnet_authenticated'
+#	config.gem 'ccls-simply_authorized'
+#	config.gem 'ccls-common_lib'
 	config.gem 'ssl_requirement'
 	config.gem 'jrails'
 	config.gem 'ryanb-acts-as-list', :lib => 'acts_as_list'
@@ -64,5 +64,10 @@ Rails::Initializer.run do |config|
 
 end
 
+HTML::WhiteListSanitizer.allowed_attributes.merge(%w(
+	id class style
+))
+
 #	To allow for the embedding of YouTube instructional videos.
 HTML::WhiteListSanitizer.allowed_tags.merge(%w( iframe ))
+
